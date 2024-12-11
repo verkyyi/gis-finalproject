@@ -1,0 +1,2317 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="generator" content="quarto-1.4.549">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+    <title>bella.get_data</title>
+    <style>
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      div.columns{display: flex; gap: min(4vw, 1.5em);}
+      div.column{flex: auto; overflow-x: auto;}
+      div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+      ul.task-list{list-style: none;}
+      ul.task-list li input[type="checkbox"] {
+        width: 0.8em;
+        margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+        vertical-align: middle;
+      }
+      /* CSS for syntax highlighting */
+      pre > code.sourceCode { white-space: pre; position: relative; }
+      pre > code.sourceCode > span { line-height: 1.25; }
+      pre > code.sourceCode > span:empty { height: 1.2em; }
+      .sourceCode { overflow: visible; }
+      code.sourceCode > span { color: inherit; text-decoration: inherit; }
+      div.sourceCode { margin: 1em 0; }
+      pre.sourceCode { margin: 0; }
+      @media screen {
+      div.sourceCode { overflow: auto; }
+      }
+      @media print {
+      pre > code.sourceCode { white-space: pre-wrap; }
+      pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+      }
+      pre.numberSource code
+        { counter-reset: source-line 0; }
+      pre.numberSource code > span
+        { position: relative; left: -4em; counter-increment: source-line; }
+      pre.numberSource code > span > a:first-child::before
+        { content: counter(source-line);
+          position: relative; left: -1em; text-align: right; vertical-align: baseline;
+          border: none; display: inline-block;
+          -webkit-touch-callout: none; -webkit-user-select: none;
+          -khtml-user-select: none; -moz-user-select: none;
+          -ms-user-select: none; user-select: none;
+          padding: 0 4px; width: 4em;
+        }
+      pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+      div.sourceCode
+        {   }
+      @media screen {
+      pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+      }
+    </style>
+
+    <style>
+      body.hypothesis-enabled #quarto-embed-header {
+        padding-right: 36px;
+      }
+
+      #quarto-embed-header {
+        height: 3em;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: solid 1px;
+      }
+
+      #quarto-embed-header h6 {
+        font-size: 1.1em;
+        padding-top: 0.6em;
+        margin-left: 1em;
+        margin-right: 1em;
+        font-weight: 400;
+      }
+
+      #quarto-embed-header a.quarto-back-link,
+      #quarto-embed-header a.quarto-download-embed {
+        font-size: 0.8em;
+        margin-top: 1em;
+        margin-bottom: 1em;
+        margin-left: 1em;
+        margin-right: 1em;
+      }
+
+      .quarto-back-container {
+        padding-left: 0.5em;
+        display: flex;
+      }
+
+      .headroom {
+          will-change: transform;
+          transition: transform 200ms linear;
+      }
+
+      .headroom--pinned {
+          transform: translateY(0%);
+      }
+
+      .headroom--unpinned {
+          transform: translateY(-100%);
+      }      
+    </style>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script>
+    window.document.addEventListener("DOMContentLoaded", function () {
+
+      var header = window.document.querySelector("#quarto-embed-header");
+      const titleBannerEl = window.document.querySelector("body > #title-block-header");
+      if (titleBannerEl) {
+        titleBannerEl.style.paddingTop = header.clientHeight + "px";
+      }
+      const contentEl = window.document.getElementById('quarto-content');
+      for (const child of contentEl.children) {
+        child.style.paddingTop = header.clientHeight + "px";
+        child.style.marginTop = "1em";
+      }
+
+      // Use the article root if the `back` call doesn't work. This isn't perfect
+      // but should typically work
+      window.quartoBackToArticle = () => {
+        var currentUrl = window.location.href;
+        window.history.back();
+        setTimeout(() => {
+            // if location was not changed in 100 ms, then there is no history back
+            if(currentUrl === window.location.href){              
+                // redirect to site root
+                window.location.href = "../index.html";
+            }
+        }, 100);
+      }
+
+      const headroom = new window.Headroom(header, {
+        tolerance: 5,
+        onPin: function () {
+        },
+        onUnpin: function () {
+        },
+      });
+      headroom.init();
+    });
+    </script>
+
+    
+<script src="../site_libs/manuscript-notebook/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script> 
+      </head>
+
+  <body class="quarto-notebook">
+    <div id="quarto-embed-header" class="headroom fixed-top bg-primary">
+      
+      <a onclick="window.quartoBackToArticle(); return false;" class="btn btn-primary quarto-back-link" href=""><i class="bi bi-caret-left"></i> Back to Article</a>
+      <h6><i class="bi bi-journal-code"></i> Hypothesis:</h6>
+
+            <a href="../code/bella.get_data.ipynb" class="btn btn-primary quarto-download-embed" download="bella.get_data.ipynb">Download Notebook</a>
+          </div>
+
+     <div id="quarto-content" class="page-columns page-rows-contents page-layout-article toc-left">
+<div id="quarto-sidebar-toc-left" class="sidebar toc-left">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#hypothesis" id="toc-hypothesis" class="nav-link active" data-scroll-target="#hypothesis">Hypothesis:</a></li>
+  <li><a href="#intensity-of-the-points" id="toc-intensity-of-the-points" class="nav-link" data-scroll-target="#intensity-of-the-points">intensity of the points</a></li>
+  <li><a href="#monte-carlo-simulation" id="toc-monte-carlo-simulation" class="nav-link" data-scroll-target="#monte-carlo-simulation">Monte carlo simulation</a></li>
+  <li><a href="#kde-kernel-density-estimation-plot" id="toc-kde-kernel-density-estimation-plot" class="nav-link" data-scroll-target="#kde-kernel-density-estimation-plot">KDE (Kernel Density Estimation) plot</a></li>
+  <li><a href="#if-the-locations-of-sweetgreen-and-chipotle-are-spatially-correlated-are-sweetgreen-and-chipotle-locations-clustered-together-like-in-the-hotelling-model-or-are-they-evenly-spaced-across-a-city-or-region-like-in-the-salop-model" id="toc-if-the-locations-of-sweetgreen-and-chipotle-are-spatially-correlated-are-sweetgreen-and-chipotle-locations-clustered-together-like-in-the-hotelling-model-or-are-they-evenly-spaced-across-a-city-or-region-like-in-the-salop-model" class="nav-link" data-scroll-target="#if-the-locations-of-sweetgreen-and-chipotle-are-spatially-correlated-are-sweetgreen-and-chipotle-locations-clustered-together-like-in-the-hotelling-model-or-are-they-evenly-spaced-across-a-city-or-region-like-in-the-salop-model">if the locations of Sweetgreen and Chipotle are spatially correlated, Are Sweetgreen and Chipotle locations clustered together (like in the Hotelling model)? Or are they evenly spaced across a city or region (like in the Salop model)?</a></li>
+  </ul>
+</nav>
+</div>
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+</div>
+<main class="content quarto-banner-title-block" id="quarto-document-content">      <div class="cell-container"><div class="cell-decorator"><pre>In [2]:</pre></div><div id="cell-0" class="cell" data-executetime="{&quot;end_time&quot;:&quot;2024-12-03T16:05:21.902054Z&quot;,&quot;start_time&quot;:&quot;2024-12-03T16:05:21.893024Z&quot;}" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># import config</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># # Access the API key</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># api_key = config.API_KEY.strip("'")</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div></div>
+<div class="cell-container"><div class="cell-decorator"><pre>In [8]:</pre></div><div id="cell-1" class="cell" data-executetime="{&quot;end_time&quot;:&quot;2024-12-03T16:05:29.677687Z&quot;,&quot;start_time&quot;:&quot;2024-12-03T16:05:29.575796Z&quot;}" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> requests</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> geopandas <span class="im">as</span> gpd</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> shapely.geometry <span class="im">import</span> Point</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_places(api_key, query, location<span class="op">=</span><span class="va">None</span>, radius<span class="op">=</span><span class="va">None</span>, max_results<span class="op">=</span><span class="dv">100</span>):</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="co">    Fetch places from Google Maps API based on a query, handling pagination.</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="co">    </span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="co">    Parameters:</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="co">        api_key (str): Google Maps API key.</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="co">        query (str): Text search query (e.g., 'Sweetgreen in Washington DC').</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="co">        location (str): Latitude,longitude string for search center.</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="co">        radius (int): Search radius in meters.</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="co">        max_results (int): Maximum number of results to fetch.</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="co">        </span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a><span class="co">    Returns:</span></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a><span class="co">        list: List of places returned by the API.</span></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>    base_url <span class="op">=</span> <span class="st">'https://maps.googleapis.com/maps/api/place/textsearch/json'</span></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>    params <span class="op">=</span> {</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>        <span class="st">'query'</span>: query,</span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>        <span class="st">'key'</span>: api_key,</span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>        <span class="st">'location'</span>: location,</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>        <span class="st">'radius'</span>: radius,</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>    all_places <span class="op">=</span> []</span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>    next_page_token <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> <span class="bu">len</span>(all_places) <span class="op">&lt;</span> max_results:</span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> next_page_token:</span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>            params[<span class="st">'pagetoken'</span>] <span class="op">=</span> next_page_token</span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>        <span class="cf">try</span>:</span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>            response <span class="op">=</span> requests.get(base_url, params<span class="op">=</span>params)</span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a>            response.raise_for_status()</span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>            data <span class="op">=</span> response.json()</span>
+<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> <span class="st">'results'</span> <span class="kw">in</span> data:</span>
+<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a>                all_places.extend(data[<span class="st">'results'</span>])</span>
+<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a>            next_page_token <span class="op">=</span> data.get(<span class="st">'next_page_token'</span>)</span>
+<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> <span class="kw">not</span> next_page_token:</span>
+<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a>                <span class="cf">break</span>  <span class="co"># No more pages available</span></span>
+<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a>        <span class="cf">except</span> requests.exceptions.RequestException <span class="im">as</span> e:</span>
+<span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="ss">f"Error fetching places: </span><span class="sc">{</span>e<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb2-48"><a href="#cb2-48" aria-hidden="true" tabindex="-1"></a>            <span class="cf">break</span></span>
+<span id="cb2-49"><a href="#cb2-49" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb2-50"><a href="#cb2-50" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> all_places[:max_results]</span>
+<span id="cb2-51"><a href="#cb2-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-52"><a href="#cb2-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-53"><a href="#cb2-53" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> save_places_to_formats(places, output_prefix<span class="op">=</span><span class="st">"places"</span>, file_suffix<span class="op">=</span><span class="st">""</span>):</span>
+<span id="cb2-54"><a href="#cb2-54" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb2-55"><a href="#cb2-55" aria-hidden="true" tabindex="-1"></a><span class="co">    Save places to GeoJSON, GeoPackage, and Shapefile formats with customizable file names.</span></span>
+<span id="cb2-56"><a href="#cb2-56" aria-hidden="true" tabindex="-1"></a><span class="co">    </span></span>
+<span id="cb2-57"><a href="#cb2-57" aria-hidden="true" tabindex="-1"></a><span class="co">    Parameters:</span></span>
+<span id="cb2-58"><a href="#cb2-58" aria-hidden="true" tabindex="-1"></a><span class="co">        places (list): List of place dictionaries from the Google Places API.</span></span>
+<span id="cb2-59"><a href="#cb2-59" aria-hidden="true" tabindex="-1"></a><span class="co">        output_prefix (str): Prefix for the output files (e.g., directory or base name).</span></span>
+<span id="cb2-60"><a href="#cb2-60" aria-hidden="true" tabindex="-1"></a><span class="co">        file_suffix (str): Custom suffix for file names (e.g., "_DC" or "_2024").</span></span>
+<span id="cb2-61"><a href="#cb2-61" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb2-62"><a href="#cb2-62" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="kw">not</span> places:</span>
+<span id="cb2-63"><a href="#cb2-63" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">"No valid places found to save."</span>)</span>
+<span id="cb2-64"><a href="#cb2-64" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span></span>
+<span id="cb2-65"><a href="#cb2-65" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-66"><a href="#cb2-66" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Convert places to a GeoDataFrame</span></span>
+<span id="cb2-67"><a href="#cb2-67" aria-hidden="true" tabindex="-1"></a>    data <span class="op">=</span> []</span>
+<span id="cb2-68"><a href="#cb2-68" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> place <span class="kw">in</span> places:</span>
+<span id="cb2-69"><a href="#cb2-69" aria-hidden="true" tabindex="-1"></a>        name <span class="op">=</span> place.get(<span class="st">'name'</span>, <span class="st">'N/A'</span>)</span>
+<span id="cb2-70"><a href="#cb2-70" aria-hidden="true" tabindex="-1"></a>        address <span class="op">=</span> place.get(<span class="st">'formatted_address'</span>, <span class="st">'N/A'</span>)</span>
+<span id="cb2-71"><a href="#cb2-71" aria-hidden="true" tabindex="-1"></a>        location <span class="op">=</span> place.get(<span class="st">'geometry'</span>, {}).get(<span class="st">'location'</span>, {})</span>
+<span id="cb2-72"><a href="#cb2-72" aria-hidden="true" tabindex="-1"></a>        lat <span class="op">=</span> location.get(<span class="st">'lat'</span>)</span>
+<span id="cb2-73"><a href="#cb2-73" aria-hidden="true" tabindex="-1"></a>        lng <span class="op">=</span> location.get(<span class="st">'lng'</span>)</span>
+<span id="cb2-74"><a href="#cb2-74" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> lat <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span> <span class="kw">and</span> lng <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>:</span>
+<span id="cb2-75"><a href="#cb2-75" aria-hidden="true" tabindex="-1"></a>            data.append({</span>
+<span id="cb2-76"><a href="#cb2-76" aria-hidden="true" tabindex="-1"></a>                <span class="st">'name'</span>: name,</span>
+<span id="cb2-77"><a href="#cb2-77" aria-hidden="true" tabindex="-1"></a>                <span class="st">'address'</span>: address,</span>
+<span id="cb2-78"><a href="#cb2-78" aria-hidden="true" tabindex="-1"></a>                <span class="st">'latitude'</span>: lat,</span>
+<span id="cb2-79"><a href="#cb2-79" aria-hidden="true" tabindex="-1"></a>                <span class="st">'longitude'</span>: lng,</span>
+<span id="cb2-80"><a href="#cb2-80" aria-hidden="true" tabindex="-1"></a>                <span class="st">'geometry'</span>: Point(lng, lat)</span>
+<span id="cb2-81"><a href="#cb2-81" aria-hidden="true" tabindex="-1"></a>            })</span>
+<span id="cb2-82"><a href="#cb2-82" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-83"><a href="#cb2-83" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Create GeoDataFrame</span></span>
+<span id="cb2-84"><a href="#cb2-84" aria-hidden="true" tabindex="-1"></a>    gdf <span class="op">=</span> gpd.GeoDataFrame(data, crs<span class="op">=</span><span class="st">"EPSG:4326"</span>)</span>
+<span id="cb2-85"><a href="#cb2-85" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-86"><a href="#cb2-86" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Customize file names</span></span>
+<span id="cb2-87"><a href="#cb2-87" aria-hidden="true" tabindex="-1"></a>    geojson_path <span class="op">=</span> <span class="ss">f"</span><span class="sc">{</span>output_prefix<span class="sc">}</span><span class="ss">_geojson</span><span class="sc">{</span>file_suffix<span class="sc">}</span><span class="ss">.geojson"</span></span>
+<span id="cb2-88"><a href="#cb2-88" aria-hidden="true" tabindex="-1"></a>    geopackage_path <span class="op">=</span> <span class="ss">f"</span><span class="sc">{</span>output_prefix<span class="sc">}</span><span class="ss">_geopackage</span><span class="sc">{</span>file_suffix<span class="sc">}</span><span class="ss">.gpkg"</span></span>
+<span id="cb2-89"><a href="#cb2-89" aria-hidden="true" tabindex="-1"></a>    shapefile_path <span class="op">=</span> <span class="ss">f"</span><span class="sc">{</span>output_prefix<span class="sc">}</span><span class="ss">_shapefile</span><span class="sc">{</span>file_suffix<span class="sc">}</span><span class="ss">.shp"</span></span>
+<span id="cb2-90"><a href="#cb2-90" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-91"><a href="#cb2-91" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Ensure output directories exist</span></span>
+<span id="cb2-92"><a href="#cb2-92" aria-hidden="true" tabindex="-1"></a>    os.makedirs(os.path.dirname(output_prefix), exist_ok<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb2-93"><a href="#cb2-93" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-94"><a href="#cb2-94" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Save files with error handling</span></span>
+<span id="cb2-95"><a href="#cb2-95" aria-hidden="true" tabindex="-1"></a>    file_formats <span class="op">=</span> [</span>
+<span id="cb2-96"><a href="#cb2-96" aria-hidden="true" tabindex="-1"></a>        (geojson_path, <span class="st">"GeoJSON"</span>, <span class="st">"GeoJSON"</span>),</span>
+<span id="cb2-97"><a href="#cb2-97" aria-hidden="true" tabindex="-1"></a>        (geopackage_path, <span class="st">"GPKG"</span>, <span class="st">"GeoPackage"</span>),</span>
+<span id="cb2-98"><a href="#cb2-98" aria-hidden="true" tabindex="-1"></a>        (shapefile_path, <span class="st">"ESRI Shapefile"</span>, <span class="st">"Shapefile"</span>),</span>
+<span id="cb2-99"><a href="#cb2-99" aria-hidden="true" tabindex="-1"></a>    ]</span>
+<span id="cb2-100"><a href="#cb2-100" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-101"><a href="#cb2-101" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> path, driver, label <span class="kw">in</span> file_formats:</span>
+<span id="cb2-102"><a href="#cb2-102" aria-hidden="true" tabindex="-1"></a>        <span class="cf">try</span>:</span>
+<span id="cb2-103"><a href="#cb2-103" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> driver <span class="op">==</span> <span class="st">"GPKG"</span>:</span>
+<span id="cb2-104"><a href="#cb2-104" aria-hidden="true" tabindex="-1"></a>                gdf.to_file(path, layer<span class="op">=</span><span class="st">"places"</span>, driver<span class="op">=</span>driver)</span>
+<span id="cb2-105"><a href="#cb2-105" aria-hidden="true" tabindex="-1"></a>            <span class="cf">else</span>:</span>
+<span id="cb2-106"><a href="#cb2-106" aria-hidden="true" tabindex="-1"></a>                gdf.to_file(path, driver<span class="op">=</span>driver)</span>
+<span id="cb2-107"><a href="#cb2-107" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="ss">f"Saved </span><span class="sc">{</span>label<span class="sc">}</span><span class="ss"> to </span><span class="sc">{</span>path<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb2-108"><a href="#cb2-108" aria-hidden="true" tabindex="-1"></a>        <span class="cf">except</span> <span class="pp">Exception</span> <span class="im">as</span> e:</span>
+<span id="cb2-109"><a href="#cb2-109" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="ss">f"Error saving </span><span class="sc">{</span>label<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>e<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb2-110"><a href="#cb2-110" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-111"><a href="#cb2-111" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-112"><a href="#cb2-112" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-113"><a href="#cb2-113" aria-hidden="true" tabindex="-1"></a><span class="co"># Example usage</span></span>
+<span id="cb2-114"><a href="#cb2-114" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="va">__name__</span> <span class="op">==</span> <span class="st">"__main__"</span>:</span>
+<span id="cb2-115"><a href="#cb2-115" aria-hidden="true" tabindex="-1"></a>    query <span class="op">=</span> <span class="st">'Sweetgreen in Washington DC'</span></span>
+<span id="cb2-116"><a href="#cb2-116" aria-hidden="true" tabindex="-1"></a>    output_prefix <span class="op">=</span> <span class="st">"output/sweetgreen_locations"</span></span>
+<span id="cb2-117"><a href="#cb2-117" aria-hidden="true" tabindex="-1"></a>    file_suffix <span class="op">=</span> <span class="st">"_2024"</span></span>
+<span id="cb2-118"><a href="#cb2-118" aria-hidden="true" tabindex="-1"></a>    api_key <span class="op">=</span> <span class="st">"AIzaSyCcd3-C2h-GutmGdeo2B2vVtDFwVVd3-EU"</span></span>
+<span id="cb2-119"><a href="#cb2-119" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-120"><a href="#cb2-120" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-121"><a href="#cb2-121" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Fetch places</span></span>
+<span id="cb2-122"><a href="#cb2-122" aria-hidden="true" tabindex="-1"></a>    places <span class="op">=</span> get_places(api_key, query, max_results<span class="op">=</span><span class="dv">200</span>)</span>
+<span id="cb2-123"><a href="#cb2-123" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Fetched </span><span class="sc">{</span><span class="bu">len</span>(places)<span class="sc">}</span><span class="ss"> places."</span>)</span>
+<span id="cb2-124"><a href="#cb2-124" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-125"><a href="#cb2-125" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Save results</span></span>
+<span id="cb2-126"><a href="#cb2-126" aria-hidden="true" tabindex="-1"></a>    save_places_to_formats(places, output_prefix, file_suffix)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Fetched 16 places.
+Saved GeoJSON to output/sweetgreen_locations_geojson_2024.geojson
+Saved GeoPackage to output/sweetgreen_locations_geopackage_2024.gpkg
+Saved Shapefile to output/sweetgreen_locations_shapefile_2024.shp</code></pre>
+</div>
+</div></div>
+<div class="cell-container"><div class="cell-decorator"><pre>In [14]:</pre></div><div id="cell-2" class="cell" data-execution_count="14">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example usage</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="va">__name__</span> <span class="op">==</span> <span class="st">"__main__"</span>:</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    query <span class="op">=</span> <span class="st">'chipotle in Washington DC'</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    output_prefix <span class="op">=</span> <span class="st">"output/chipotle_locations"</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    file_suffix <span class="op">=</span> <span class="st">"_2024"</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Fetch places</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    places <span class="op">=</span> get_places(api_key, query, max_results<span class="op">=</span><span class="dv">200</span>)</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Fetched </span><span class="sc">{</span><span class="bu">len</span>(places)<span class="sc">}</span><span class="ss"> places."</span>)</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Save results</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>    save_places_to_formats(places, output_prefix, file_suffix)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Fetched 20 places.
+Saved GeoJSON to output/chipotle_locations_geojson_2024.geojson
+Saved GeoPackage to output/chipotle_locations_geopackage_2024.gpkg
+Saved Shapefile to output/chipotle_locations_shapefile_2024.shp</code></pre>
+</div>
+</div></div>
+<div id="cell-3" class="cell markdown">
+<section id="hypothesis" class="level1">
+<h1>Hypothesis:</h1>
+<p><span class="math inline">\(\mathcal{H}_0\)</span>: Sweetgreen and Chipotle locations are randomly distributed with no spatial correlation.</p>
+<p><span class="math inline">\(\mathcal{H}_A\)</span>: SSweetgreen and Chipotle locations are spatially correlated (either clustering together (proximity) or repelling each other (competition)).</p>
+</section>
+</div>
+<div class="cell-container"><div class="cell-decorator"><pre>In [15]:</pre></div><div id="cell-4" class="cell" data-execution_count="15">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.spatial <span class="im">import</span> distance_matrix</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> geopandas <span class="im">as</span> gpd</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Load data</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>chipotle_gdf <span class="op">=</span> gpd.read_file(<span class="st">"../output/chipotle_locations_geojson_2024.geojson"</span>)  <span class="co"># Chipotle locations</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>sweetgreen_gdf <span class="op">=</span> gpd.read_file(<span class="st">"../output/sweetgreen_locations_geojson_2024.geojson"</span>)</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Ensure CRS matches</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>chipotle_gdf <span class="op">=</span> chipotle_gdf.to_crs(sweetgreen_gdf.crs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div></div>
+<div id="cell-5" class="cell markdown">
+<section id="intensity-of-the-points" class="level1">
+<h1>intensity of the points</h1>
+</section>
+</div>
+<div class="cell-container"><div class="cell-decorator"><pre>In [16]:</pre></div><div id="cell-6" class="cell" data-execution_count="16">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> requests</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_places(api_key, query, location<span class="op">=</span><span class="va">None</span>, radius<span class="op">=</span><span class="dv">5000</span>):</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="co">    Fetch places from Google Maps API based on a query.</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    base_url <span class="op">=</span> <span class="st">'https://maps.googleapis.com/maps/api/place/textsearch/json'</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    params <span class="op">=</span> {</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>        <span class="st">'query'</span>: query,</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>        <span class="st">'key'</span>: api_key,</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>        <span class="st">'location'</span>: location,  <span class="co"># Optional: e.g., '38.9072,-77.0369'</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>        <span class="st">'radius'</span>: radius  <span class="co"># Search radius in meters</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>    all_places <span class="op">=</span> []</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>    next_page_token <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> <span class="va">True</span>:</span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> next_page_token:</span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>            params[<span class="st">'pagetoken'</span>] <span class="op">=</span> next_page_token</span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>        response <span class="op">=</span> requests.get(base_url, params<span class="op">=</span>params)</span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>        response.raise_for_status()</span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>        data <span class="op">=</span> response.json()</span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="st">'results'</span> <span class="kw">in</span> data:</span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>            all_places.extend(data[<span class="st">'results'</span>])</span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a>        next_page_token <span class="op">=</span> data.get(<span class="st">'next_page_token'</span>)</span>
+<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="kw">not</span> next_page_token:</span>
+<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a>            <span class="cf">break</span>  <span class="co"># No more pages to fetch</span></span>
+<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Return relevant fields</span></span>
+<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> [</span>
+<span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a>        {</span>
+<span id="cb7-37"><a href="#cb7-37" aria-hidden="true" tabindex="-1"></a>            <span class="st">'name'</span>: place[<span class="st">'name'</span>],</span>
+<span id="cb7-38"><a href="#cb7-38" aria-hidden="true" tabindex="-1"></a>            <span class="st">'address'</span>: place.get(<span class="st">'formatted_address'</span>, <span class="st">'N/A'</span>),</span>
+<span id="cb7-39"><a href="#cb7-39" aria-hidden="true" tabindex="-1"></a>            <span class="st">'lat'</span>: place[<span class="st">'geometry'</span>][<span class="st">'location'</span>][<span class="st">'lat'</span>],</span>
+<span id="cb7-40"><a href="#cb7-40" aria-hidden="true" tabindex="-1"></a>            <span class="st">'lng'</span>: place[<span class="st">'geometry'</span>][<span class="st">'location'</span>][<span class="st">'lng'</span>]</span>
+<span id="cb7-41"><a href="#cb7-41" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb7-42"><a href="#cb7-42" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> place <span class="kw">in</span> all_places</span>
+<span id="cb7-43"><a href="#cb7-43" aria-hidden="true" tabindex="-1"></a>    ]</span>
+<span id="cb7-44"><a href="#cb7-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-45"><a href="#cb7-45" aria-hidden="true" tabindex="-1"></a><span class="co"># Example API usage</span></span>
+<span id="cb7-46"><a href="#cb7-46" aria-hidden="true" tabindex="-1"></a>sweetgreen_places <span class="op">=</span> get_places(api_key, <span class="st">'Sweetgreen in Washington DC'</span>)</span>
+<span id="cb7-47"><a href="#cb7-47" aria-hidden="true" tabindex="-1"></a>chipotle_places <span class="op">=</span> get_places(api_key, <span class="st">'Chipotle in Washington DC'</span>)</span>
+<span id="cb7-48"><a href="#cb7-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-49"><a href="#cb7-49" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert results to DataFrames</span></span>
+<span id="cb7-50"><a href="#cb7-50" aria-hidden="true" tabindex="-1"></a>sweetgreen_df <span class="op">=</span> pd.DataFrame(sweetgreen_places)</span>
+<span id="cb7-51"><a href="#cb7-51" aria-hidden="true" tabindex="-1"></a>chipotle_df <span class="op">=</span> pd.DataFrame(chipotle_places)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div></div>
+<div class="cell-container"><div class="cell-decorator"><pre>In [17]:</pre></div><div id="cell-7" class="cell" data-execution_count="17">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> folium</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a base map centered around Washington, D.C.</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>map_center <span class="op">=</span> [<span class="fl">38.9072</span>, <span class="op">-</span><span class="fl">77.0369</span>]  <span class="co"># Latitude, Longitude</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>m <span class="op">=</span> folium.Map(location<span class="op">=</span>map_center, zoom_start<span class="op">=</span><span class="dv">13</span>)</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Add Sweetgreen locations to the map</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> _, row <span class="kw">in</span> sweetgreen_df.iterrows():</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>    folium.Marker(</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>        location<span class="op">=</span>[row[<span class="st">'lat'</span>], row[<span class="st">'lng'</span>]],</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>        popup<span class="op">=</span><span class="ss">f"Sweetgreen: </span><span class="sc">{</span>row[<span class="st">'name'</span>]<span class="sc">}</span><span class="ss">&lt;br&gt;</span><span class="sc">{</span>row[<span class="st">'address'</span>]<span class="sc">}</span><span class="ss">"</span>,</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>        icon<span class="op">=</span>folium.Icon(color<span class="op">=</span><span class="st">'green'</span>, icon<span class="op">=</span><span class="st">'leaf'</span>)</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>    ).add_to(m)</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Add Chipotle locations to the map</span></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> _, row <span class="kw">in</span> chipotle_df.iterrows():</span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>    folium.Marker(</span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>        location<span class="op">=</span>[row[<span class="st">'lat'</span>], row[<span class="st">'lng'</span>]],</span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>        popup<span class="op">=</span><span class="ss">f"Chipotle: </span><span class="sc">{</span>row[<span class="st">'name'</span>]<span class="sc">}</span><span class="ss">&lt;br&gt;</span><span class="sc">{</span>row[<span class="st">'address'</span>]<span class="sc">}</span><span class="ss">"</span>,</span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>        icon<span class="op">=</span>folium.Icon(color<span class="op">=</span><span class="st">'orange'</span>, icon<span class="op">=</span><span class="st">'cutlery'</span>)</span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>    ).add_to(m)</span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Save and display the map</span></span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>m.save(<span class="st">"sweetgreen_chipotle_map.html"</span>)</span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a>m</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="17">
+<div style="width:100%;"><div style="position:relative;width:100%;height:0;padding-bottom:60%;"><span style="color:#565656">Make this Notebook Trusted to load map: File -&gt; Trust Notebook</span><iframe srcdoc="<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv=&quot;content-type&quot; content=&quot;text/html; charset=UTF-8&quot; />
+    
+        <script>
+            L_NO_TOUCH = false;
+            L_DISABLE_3D = false;
+        </script>
+    
+    <style>html, body {width: 100%;height: 100%;margin: 0;padding: 0;}</style>
+    <style>#map {position:absolute;top:0;bottom:0;right:0;left:0;}</style>
+    <script src=&quot;https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js&quot;></script>
+    <script src=&quot;https://code.jquery.com/jquery-3.7.1.min.js&quot;></script>
+    <script src=&quot;https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js&quot;></script>
+    <script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js&quot;></script>
+    <link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css&quot;/>
+    <link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css&quot;/>
+    <link rel=&quot;stylesheet&quot; href=&quot;https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css&quot;/>
+    <link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css&quot;/>
+    <link rel=&quot;stylesheet&quot; href=&quot;https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css&quot;/>
+    <link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css&quot;/>
+    
+            <meta name=&quot;viewport&quot; content=&quot;width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no&quot; />
+            <style>
+                #map_30e05f40cc6e15efbe4dbfaebcdf6fb1 {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+        
+</head>
+<body>
+    
+    
+            <div class=&quot;folium-map&quot; id=&quot;map_30e05f40cc6e15efbe4dbfaebcdf6fb1&quot; ></div>
+        
+</body>
+<script>
+    
+    
+            var map_30e05f40cc6e15efbe4dbfaebcdf6fb1 = L.map(
+                &quot;map_30e05f40cc6e15efbe4dbfaebcdf6fb1&quot;,
+                {
+                    center: [38.9072, -77.0369],
+                    crs: L.CRS.EPSG3857,
+                    zoom: 13,
+                    zoomControl: true,
+                    preferCanvas: false,
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_bb6da3ac4c4b9fbc4b96e2a892ad8fda = L.tileLayer(
+                &quot;https://tile.openstreetmap.org/{z}/{x}/{y}.png&quot;,
+                {&quot;attribution&quot;: &quot;\u0026copy; \u003ca href=\&quot;https://www.openstreetmap.org/copyright\&quot;\u003eOpenStreetMap\u003c/a\u003e contributors&quot;, &quot;detectRetina&quot;: false, &quot;maxNativeZoom&quot;: 19, &quot;maxZoom&quot;: 19, &quot;minZoom&quot;: 0, &quot;noWrap&quot;: false, &quot;opacity&quot;: 1, &quot;subdomains&quot;: &quot;abc&quot;, &quot;tms&quot;: false}
+            );
+        
+    
+            tile_layer_bb6da3ac4c4b9fbc4b96e2a892ad8fda.addTo(map_30e05f40cc6e15efbe4dbfaebcdf6fb1);
+        
+    
+            var marker_77bf22d8e2c1aecd15de60b6e1b01498 = L.marker(
+                [38.9011795, -77.0400105],
+                {}
+            ).addTo(map_30e05f40cc6e15efbe4dbfaebcdf6fb1);
+        
+    
+            var icon_367b418fc9a8b682419ef45b351d9378 = L.AwesomeMarkers.icon(
+                {&quot;extraClasses&quot;: &quot;fa-rotate-0&quot;, &quot;icon&quot;: &quot;leaf&quot;, &quot;iconColor&quot;: &quot;white&quot;, &quot;markerColor&quot;: &quot;green&quot;, &quot;prefix&quot;: &quot;glyphicon&quot;}
+            );
+            marker_77bf22d8e2c1aecd15de60b6e1b01498.setIcon(icon_367b418fc9a8b682419ef45b351d9378);
+        
+    
+        var popup_fbe980eeeec22cee4a62cd02056643ff = L.popup({&quot;maxWidth&quot;: &quot;100%&quot;});
+
+        
+            
+                var html_d502655c64b52eefb6afa9b776f85882 = $(`<div id=&quot;html_d502655c64b52eefb6afa9b776f85882&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;>Sweetgreen: sweetgreen<br>888 17th St NW Ste 104, Washington, DC 20006, United States</div>`)[0];
+                popup_fbe980eeeec22cee4a62cd02056643ff.setContent(html_d502655c64b52eefb6afa9b776f85882);
+            
+        
+
+        marker_77bf22d8e2c1aecd15de60b6e1b01498.bindPopup(popup_fbe980eeeec22cee4a62cd02056643ff)
+        ;
+
+        
+    
+    
+            var marker_f49ee714b4917368d656526908f114ec = L.marker(
+                [38.9193652, -77.03125639999999],
+                {}
+            ).addTo(map_30e05f40cc6e15efbe4dbfaebcdf6fb1);
+        
+    
+            var icon_bf52f3cae5b24ba9ca05dd7861fbc876 = L.AwesomeMarkers.icon(
+                {&quot;extraClasses&quot;: &quot;fa-rotate-0&quot;, &quot;icon&quot;: &quot;leaf&quot;, &quot;iconColor&quot;: &quot;white&quot;, &quot;markerColor&quot;: &quot;green&quot;, &quot;prefix&quot;: &quot;glyphicon&quot;}
+            );
+            marker_f49ee714b4917368d656526908f114ec.setIcon(icon_bf52f3cae5b24ba9ca05dd7861fbc876);
+        
+    
+        var popup_467cb3011914f4f6659eb731adad61d5 = L.popup({&quot;maxWidth&quot;: &quot;100%&quot;});
+
+        
+            
+                var html_aa5e0f25536f29381c8482e967edb402 = $(`<div id=&quot;html_aa5e0f25536f29381c8482e967edb402&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;>Sweetgreen: sweetgreen<br>1325 W St NW, Washington, DC 20009, United States</div>`)[0];
+                popup_467cb3011914f4f6659eb731adad61d5.setContent(html_aa5e0f25536f29381c8482e967edb402);
+            
+        
+
+        marker_f49ee714b4917368d656526908f114ec.bindPopup(popup_467cb3011914f4f6659eb731adad61d5)
+        ;
+
+        
+    
+    
+            var marker_4242f9f6b7ce30c8c28bc6cbdfa1e2ce = L.marker(
+                [38.905112, -77.0493497],
+                {}
+            ).addTo(map_30e05f40cc6e15efbe4dbfaebcdf6fb1);
+        
+    
+            var icon_e176a84312200286e15446eab49e6c58 = L.AwesomeMarkers.icon(
+                {&quot;extraClasses&quot;: &quot;fa-rotate-0&quot;, &quot;icon&quot;: &quot;leaf&quot;, &quot;iconColor&quot;: &quot;white&quot;, &quot;markerColor&quot;: &quot;green&quot;, &quot;prefix&quot;: &quot;glyphicon&quot;}
+            );
+            marker_4242f9f6b7ce30c8c28bc6cbdfa1e2ce.setIcon(icon_e176a84312200286e15446eab49e6c58);
+        
+    
+        var popup_304b25af16f27bdb3fa1cfc95a0549aa = L.popup({&quot;maxWidth&quot;: &quot;100%&quot;});
+
+        
+            
+                var html_1b1bdabe51b7e47359ef276c0a3cfe2d = $(`<div id=&quot;html_1b1bdabe51b7e47359ef276c0a3cfe2d&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;>Sweetgreen: sweetgreen<br>2238 M St NW, Washington, DC 20037, United States</div>`)[0];
+                popup_304b25af16f27bdb3fa1cfc95a0549aa.setContent(html_1b1bdabe51b7e47359ef276c0a3cfe2d);
+            
+        
+
+        marker_4242f9f6b7ce30c8c28bc6cbdfa1e2ce.bindPopup(popup_304b25af16f27bdb3fa1cfc95a0549aa)
+        ;
+
+        
+    
+    
+            var marker_b457fba3b8ec9a2a0151ee7d16efe64c = L.marker(
+                [38.8870647, -77.0026924],
+                {}
+            ).addTo(map_30e05f40cc6e15efbe4dbfaebcdf6fb1);
+        
+    
+            var icon_c9560f85099e100d91dcf5c03ee6c270 = L.AwesomeMarkers.icon(
+                {&quot;extraClasses&quot;: &quot;fa-rotate-0&quot;, &quot;icon&quot;: &quot;leaf&quot;, &quot;iconColor&quot;: &quot;white&quot;, &quot;markerColor&quot;: &quot;green&quot;, &quot;prefix&quot;: &quot;glyphicon&quot;}
+            );
+            marker_b457fba3b8ec9a2a0151ee7d16efe64c.setIcon(icon_c9560f85099e100d91dcf5c03ee6c270);
+        
+    
+        var popup_dc3bce4c01cf7f02d27a5e34fa1a9a0e = L.popup({&quot;maxWidth&quot;: &quot;100%&quot;});
+
+        
+            
+                var html_730f9b1bbbeee0ced449629e72c33ce7 = $(`<div id=&quot;html_730f9b1bbbeee0ced449629e72c33ce7&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;>Sweetgreen: sweetgreen<br>221 Pennsylvania Ave. SE, Washington, DC 20003, United States</div>`)[0];
+                popup_dc3bce4c01cf7f02d27a5e34fa1a9a0e.setContent(html_730f9b1bbbeee0ced449629e72c33ce7);
+            
+        
+
+        marker_b457fba3b8ec9a2a0151ee7d16efe64c.bindPopup(popup_dc3bce4c01cf7f02d27a5e34fa1a9a0e)
+        ;
+
+        
+    
+    
+            var marker_92871f3c1991dcede7eca45440f113d0 = L.marker(
+                [38.9104708, -77.0441824],
+                {}
+            ).addTo(map_30e05f40cc6e15efbe4dbfaebcdf6fb1);
+        
+    
+            var icon_c7d1da11507fb5cc27490c801bcba71e = L.AwesomeMarkers.icon(
+                {&quot;extraClasses&quot;: &quot;fa-rotate-0&quot;, &quot;icon&quot;: &quot;leaf&quot;, &quot;iconColor&quot;: &quot;white&quot;, &quot;markerColor&quot;: &quot;green&quot;, &quot;prefix&quot;: &quot;glyphicon&quot;}
+            );
+            marker_92871f3c1991dcede7eca45440f113d0.setIcon(icon_c7d1da11507fb5cc27490c801bcba71e);
+        
+    
+        var popup_5449bebd841a31df2f568d23cdb4160a = L.popup({&quot;maxWidth&quot;: &quot;100%&quot;});
+
+        
+            
+                var html_9519846c1e66b23e68580e87c397cc45 = $(`<div id=&quot;html_9519846c1e66b23e68580e87c397cc45&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;>Sweetgreen: sweetgreen<br>1512 Connecticut Ave NW, Washington, DC 20036, United States</div>`)[0];
+                popup_5449bebd841a31df2f568d23cdb4160a.setContent(html_9519846c1e66b23e68580e87c397cc45);
+            
+        
+
+        marker_92871f3c1991dcede7eca45440f113d0.bindPopup(popup_5449bebd841a31df2f568d23cdb4160a)
+        ;
+
+        
+    
+    
+            var marker_d74f7e88b31028cf06baf1fb802b5a7e = L.marker(
+                [38.9098374, -77.0339645],
+                {}
+            ).addTo(map_30e05f40cc6e15efbe4dbfaebcdf6fb1);
+        
+    
+            var icon_5114514a2c7d94e151b0eaa58427cabc = L.AwesomeMarkers.icon(
+                {&quot;extraClasses&quot;: &quot;fa-rotate-0&quot;, &quot;icon&quot;: &quot;leaf&quot;, &quot;iconColor&quot;: &quot;white&quot;, &quot;markerColor&quot;: &quot;green&quot;, &quot;prefix&quot;: &quot;glyphicon&quot;}
+            );
+            marker_d74f7e88b31028cf06baf1fb802b5a7e.setIcon(icon_5114514a2c7d94e151b0eaa58427cabc);
+        
+    
+        var popup_c9bfd82d3244d4971b2a50b61ce6739e = L.popup({&quot;maxWidth&quot;: &quot;100%&quot;});
+
+        
+            
+                var html_634bc9d984f5dae5ce136fde66f2625b = $(`<div id=&quot;html_634bc9d984f5dae5ce136fde66f2625b&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;>Sweetgreen: sweetgreen<br>1461 P St NW, Washington, DC 20005, United States</div>`)[0];
+                popup_c9bfd82d3244d4971b2a50b61ce6739e.setContent(html_634bc9d984f5dae5ce136fde66f2625b);
+            
+        
+
+        marker_d74f7e88b31028cf06baf1fb802b5a7e.bindPopup(popup_c9bfd82d3244d4971b2a50b61ce6739e)
+        ;
+
+        
+    
+    
+            var marker_9fb38d03eb079b083fc37eb79692a4e0 = L.marker(
+                [38.9037977, -77.0629302],
+                {}
+            ).addTo(map_30e05f40cc6e15efbe4dbfaebcdf6fb1);
+        
+    
+            var icon_d6da66ec85030952a501437d70065b68 = L.AwesomeMarkers.icon(
+                {&quot;extraClasses&quot;: &quot;fa-rotate-0&quot;, &quot;icon&quot;: &quot;leaf&quot;, &quot;iconColor&quot;: &quot;white&quot;, &quot;markerColor&quot;: &quot;green&quot;, &quot;prefix&quot;: &quot;glyphicon&quot;}
+            );
+            marker_9fb38d03eb079b083fc37eb79692a4e0.setIcon(icon_d6da66ec85030952a501437d70065b68);
+        
+    
+        var popup_fcdb5292fde5b2b5e772e898d56cec5b = L.popup({&quot;maxWidth&quot;: &quot;100%&quot;});
+
+        
+            
+                var html_c7d72a9d19c3375cf40e240e55fea047 = $(`<div id=&quot;html_c7d72a9d19c3375cf40e240e55fea047&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;>Sweetgreen: sweetgreen<br>1044 Wisconsin Ave NW, Washington, DC 20007, United States</div>`)[0];
+                popup_fcdb5292fde5b2b5e772e898d56cec5b.setContent(html_c7d72a9d19c3375cf40e240e55fea047);
+            
+        
+
+        marker_9fb38d03eb079b083fc37eb79692a4e0.bindPopup(popup_fcdb5292fde5b2b5e772e898d56cec5b)
+        ;
+
+        
+    
+    
+            var marker_1b31b8f0e40f43ac7f16c5043ee3237d = L.marker(
+                [38.8960213, -77.0213797],
+                {}
+            ).addTo(map_30e05f40cc6e15efbe4dbfaebcdf6fb1);
+        
+    
+            var icon_b46520800c9256f4a7a19dbbc290950b = L.AwesomeMarkers.icon(
+                {&quot;extraClasses&quot;: &quot;fa-rotate-0&quot;, &quot;icon&quot;: &quot;leaf&quot;, &quot;iconColor&quot;: &quot;white&quot;, &quot;markerColor&quot;: &quot;green&quot;, &quot;prefix&quot;: &quot;glyphicon&quot;}
+            );
+            marker_1b31b8f0e40f43ac7f16c5043ee3237d.setIcon(icon_b46520800c9256f4a7a19dbbc290950b);
+        
+    
+        var popup_568c50c185e379d007f27a3a5c23bf51 = L.popup({&quot;maxWidth&quot;: &quot;100%&quot;});
+
+        
+            
+                var html_5c39b58f956de87937c4c22c4d279529 = $(`<div id=&quot;html_5c39b58f956de87937c4c22c4d279529&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;>Sweetgreen: sweetgreen<br>624 E St NW, Washington, DC 20004, United States</div>`)[0];
+                popup_568c50c185e379d007f27a3a5c23bf51.setContent(html_5c39b58f956de87937c4c22c4d279529);
+            
+        
+
+        marker_1b31b8f0e40f43ac7f16c5043ee3237d.bindPopup(popup_568c50c185e379d007f27a3a5c23bf51)
+        ;
+
+        
+    
+    
+            var marker_06ea3b25266d6c86eff8ada4347b156e = L.marker(
+                [38.9009086, -77.0496211],
+                {}
+            ).addTo(map_30e05f40cc6e15efbe4dbfaebcdf6fb1);
+        
+    
+            var icon_9f8fb6df9f1349acbdaf23ce2337ea2b = L.AwesomeMarkers.icon(
+                {&quot;extraClasses&quot;: &quot;fa-rotate-0&quot;, &quot;icon&quot;: &quot;leaf&quot;, &quot;iconColor&quot;: &quot;white&quot;, &quot;markerColor&quot;: &quot;green&quot;, &quot;prefix&quot;: &quot;glyphicon&quot;}
+            );
+            marker_06ea3b25266d6c86eff8ada4347b156e.setIcon(icon_9f8fb6df9f1349acbdaf23ce2337ea2b);
+        
+    
+        var popup_47c9382c658e664e00509c577c68890e = L.popup({&quot;maxWidth&quot;: &quot;100%&quot;});
+
+        
+            
+                var html_c0b22e172a9b5afcdede683fa46f3307 = $(`<div id=&quot;html_c0b22e172a9b5afcdede683fa46f3307&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;>Sweetgreen: sweetgreen<br>2221 I St NW, Washington, DC 20037, United States</div>`)[0];
+                popup_47c9382c658e664e00509c577c68890e.setContent(html_c0b22e172a9b5afcdede683fa46f3307);
+            
+        
+
+        marker_06ea3b25266d6c86eff8ada4347b156e.bindPopup(popup_47c9382c658e664e00509c577c68890e)
+        ;
+
+        
+    
+    
+            var marker_c04907af32cd2617d337d8d0177c4476 = L.marker(
+                [38.9017462, -77.0200861],
+                {}
+            ).addTo(map_30e05f40cc6e15efbe4dbfaebcdf6fb1);
+        
+    
+            var icon_9df7a94959156b5cd03825709e30a883 = L.AwesomeMarkers.icon(
+                {&quot;extraClasses&quot;: &quot;fa-rotate-0&quot;, &quot;icon&quot;: &quot;leaf&quot;, &quot;iconColor&quot;: &quot;white&quot;, &quot;markerColor&quot;: &quot;green&quot;, &quot;prefix&quot;: &quot;glyphicon&quot;}
+            );
+            marker_c04907af32cd2617d337d8d0177c4476.setIcon(icon_9df7a94959156b5cd03825709e30a883);
+        
+    
+        var popup_a50ca22f951d9c12f21f2f110415945b = L.popup({&quot;maxWidth&quot;: &quot;100%&quot;});
+
+        
+            
+                var html_994d41f6c044fc31af8d314785b22602 = $(`<div id=&quot;html_994d41f6c044fc31af8d314785b22602&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;>Sweetgreen: sweetgreen<br>601 Massachusetts Ave NW Suite 110, Washington, DC 20001, United States</div>`)[0];
+                popup_a50ca22f951d9c12f21f2f110415945b.setContent(html_994d41f6c044fc31af8d314785b22602);
+            
+        
+
+        marker_c04907af32cd2617d337d8d0177c4476.bindPopup(popup_a50ca22f951d9c12f21f2f110415945b)
+        ;
+
+        
+    
+    
+            var marker_29c8788d228c1a3dbd039c9d35fce527 = L.marker(
+                [38.8751397, -77.00036659999999],
+                {}
+            ).addTo(map_30e05f40cc6e15efbe4dbfaebcdf6fb1);
+        
+    
+            var icon_a4e5f6a356a7f9fdfcfbda71a11c2d7f = L.AwesomeMarkers.icon(
+                {&quot;extraClasses&quot;: &quot;fa-rotate-0&quot;, &quot;icon&quot;: &quot;leaf&quot;, &quot;iconColor&quot;: &quot;white&quot;, &quot;markerColor&quot;: &quot;green&quot;, &quot;prefix&quot;: &quot;glyphicon&quot;}
+            );
+            marker_29c8788d228c1a3dbd039c9d35fce527.setIcon(icon_a4e5f6a356a7f9fdfcfbda71a11c2d7f);
+        
+    
+        var popup_f36194ea44584cd55bc6dadd13d0fc7c = L.popup({&quot;maxWidth&quot;: &quot;100%&quot;});
+
+        
+            
+                var html_dc7e9a19ed45ce168e7d7ef8974ff94e = $(`<div id=&quot;html_dc7e9a19ed45ce168e7d7ef8974ff94e&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;>Sweetgreen: sweetgreen<br>1212 4th St SE, Washington, DC 20003, United States</div>`)[0];
+                popup_f36194ea44584cd55bc6dadd13d0fc7c.setContent(html_dc7e9a19ed45ce168e7d7ef8974ff94e);
+            
+        
+
+        marker_29c8788d228c1a3dbd039c9d35fce527.bindPopup(popup_f36194ea44584cd55bc6dadd13d0fc7c)
+        ;
+
+        
+    
+    
+            var marker_4aceb0616f3bacc164534464ebf37757 = L.marker(
+                [38.8963197, -77.0710847],
+                {}
+            ).addTo(map_30e05f40cc6e15efbe4dbfaebcdf6fb1);
+        
+    
+            var icon_509c71b8d9e16927d5a701c9d78f412a = L.AwesomeMarkers.icon(
+                {&quot;extraClasses&quot;: &quot;fa-rotate-0&quot;, &quot;icon&quot;: &quot;leaf&quot;, &quot;iconColor&quot;: &quot;white&quot;, &quot;markerColor&quot;: &quot;green&quot;, &quot;prefix&quot;: &quot;glyphicon&quot;}
+            );
+            marker_4aceb0616f3bacc164534464ebf37757.setIcon(icon_509c71b8d9e16927d5a701c9d78f412a);
+        
+    
+        var popup_ba0282be9ffac44153a65a9951737be9 = L.popup({&quot;maxWidth&quot;: &quot;100%&quot;});
+
+        
+            
+                var html_5f0eda666ffa2cae889453e66efdb8af = $(`<div id=&quot;html_5f0eda666ffa2cae889453e66efdb8af&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;>Sweetgreen: sweetgreen<br>1800 N Lynn St, Arlington, VA 22209, United States</div>`)[0];
+                popup_ba0282be9ffac44153a65a9951737be9.setContent(html_5f0eda666ffa2cae889453e66efdb8af);
+            
+        
+
+        marker_4aceb0616f3bacc164534464ebf37757.bindPopup(popup_ba0282be9ffac44153a65a9951737be9)
+        ;
+
+        
+    
+    
+            var marker_85a0136a6f582c3bdaea22d64ae56bbc = L.marker(
+                [38.862587, -77.05636989999999],
+                {}
+            ).addTo(map_30e05f40cc6e15efbe4dbfaebcdf6fb1);
+        
+    
+            var icon_2d7250aab16a2473996a85ff867061a3 = L.AwesomeMarkers.icon(
+                {&quot;extraClasses&quot;: &quot;fa-rotate-0&quot;, &quot;icon&quot;: &quot;leaf&quot;, &quot;iconColor&quot;: &quot;white&quot;, &quot;markerColor&quot;: &quot;green&quot;, &quot;prefix&quot;: &quot;glyphicon&quot;}
+            );
+            marker_85a0136a6f582c3bdaea22d64ae56bbc.setIcon(icon_2d7250aab16a2473996a85ff867061a3);
+        
+    
+        var popup_b8a295a02d17ca5bdbada9ef3f9ba793 = L.popup({&quot;maxWidth&quot;: &quot;100%&quot;});
+
+        
+            
+                var html_49ee3174c69fc26172d767c6e73413a4 = $(`<div id=&quot;html_49ee3174c69fc26172d767c6e73413a4&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;>Sweetgreen: sweetgreen<br>575 12th Rd S Ste B2, Arlington, VA 22202, United States</div>`)[0];
+                popup_b8a295a02d17ca5bdbada9ef3f9ba793.setContent(html_49ee3174c69fc26172d767c6e73413a4);
+            
+        
+
+        marker_85a0136a6f582c3bdaea22d64ae56bbc.bindPopup(popup_b8a295a02d17ca5bdbada9ef3f9ba793)
+        ;
+
+        
+    
+    
+            var marker_63810506d58b35f6e238d255fc263293 = L.marker(
+                [38.8543928, -77.049751],
+                {}
+            ).addTo(map_30e05f40cc6e15efbe4dbfaebcdf6fb1);
+        
+    
+            var icon_e709524251777ecda9a5b5e8f7ea6d3e = L.AwesomeMarkers.icon(
+                {&quot;extraClasses&quot;: &quot;fa-rotate-0&quot;, &quot;icon&quot;: &quot;leaf&quot;, &quot;iconColor&quot;: &quot;white&quot;, &quot;markerColor&quot;: &quot;green&quot;, &quot;prefix&quot;: &quot;glyphicon&quot;}
+            );
+            marker_63810506d58b35f6e238d255fc263293.setIcon(icon_e709524251777ecda9a5b5e8f7ea6d3e);
+        
+    
+        var popup_efb4b813518e4b5384e68a8ec71b0b55 = L.popup({&quot;maxWidth&quot;: &quot;100%&quot;});
+
+        
+            
+                var html_e71fca36f3d42ca8e2f232d7dabc60f6 = $(`<div id=&quot;html_e71fca36f3d42ca8e2f232d7dabc60f6&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;>Sweetgreen: sweetgreen<br>2200 Crystal Dr Ste E, Arlington, VA 22202, United States</div>`)[0];
+                popup_efb4b813518e4b5384e68a8ec71b0b55.setContent(html_e71fca36f3d42ca8e2f232d7dabc60f6);
+            
+        
+
+        marker_63810506d58b35f6e238d255fc263293.bindPopup(popup_efb4b813518e4b5384e68a8ec71b0b55)
+        ;
+
+        
+    
+    
+            var marker_328da55ea475af1b32515db8047f097d = L.marker(
+                [38.9951025, -77.02683809999999],
+                {}
+            ).addTo(map_30e05f40cc6e15efbe4dbfaebcdf6fb1);
+        
+    
+            var icon_3531f8b3fb51aa7f6b5a2156ca35cc22 = L.AwesomeMarkers.icon(
+                {&quot;extraClasses&quot;: &quot;fa-rotate-0&quot;, &quot;icon&quot;: &quot;leaf&quot;, &quot;iconColor&quot;: &quot;white&quot;, &quot;markerColor&quot;: &quot;green&quot;, &quot;prefix&quot;: &quot;glyphicon&quot;}
+            );
+            marker_328da55ea475af1b32515db8047f097d.setIcon(icon_3531f8b3fb51aa7f6b5a2156ca35cc22);
+        
+    
+        var popup_bd375a2c5a978cbe479f8684b75dc6c5 = L.popup({&quot;maxWidth&quot;: &quot;100%&quot;});
+
+        
+            
+                var html_1e39f6442d081beeab28834ee15739dc = $(`<div id=&quot;html_1e39f6442d081beeab28834ee15739dc&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;>Sweetgreen: sweetgreen<br>8517 Georgia Ave, Silver Spring, MD 20910, United States</div>`)[0];
+                popup_bd375a2c5a978cbe479f8684b75dc6c5.setContent(html_1e39f6442d081beeab28834ee15739dc);
+            
+        
+
+        marker_328da55ea475af1b32515db8047f097d.bindPopup(popup_bd375a2c5a978cbe479f8684b75dc6c5)
+        ;
+
+        
+    
+    
+            var marker_71e0b9d31f543bc93f2e95daf360321b = L.marker(
+                [38.9094363, -76.9992036],
+                {}
+            ).addTo(map_30e05f40cc6e15efbe4dbfaebcdf6fb1);
+        
+    
+            var icon_cb17a61bba8577820ba36a59f467c484 = L.AwesomeMarkers.icon(
+                {&quot;extraClasses&quot;: &quot;fa-rotate-0&quot;, &quot;icon&quot;: &quot;leaf&quot;, &quot;iconColor&quot;: &quot;white&quot;, &quot;markerColor&quot;: &quot;green&quot;, &quot;prefix&quot;: &quot;glyphicon&quot;}
+            );
+            marker_71e0b9d31f543bc93f2e95daf360321b.setIcon(icon_cb17a61bba8577820ba36a59f467c484);
+        
+    
+        var popup_54f26007da45f6598ac76a50823cc3a7 = L.popup({&quot;maxWidth&quot;: &quot;100%&quot;});
+
+        
+            
+                var html_7e95531872e73ab21cd7d0cf85b0473f = $(`<div id=&quot;html_7e95531872e73ab21cd7d0cf85b0473f&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;>Sweetgreen: sweetgreen<br>1304 4th St NE, Washington, DC 20002, United States</div>`)[0];
+                popup_54f26007da45f6598ac76a50823cc3a7.setContent(html_7e95531872e73ab21cd7d0cf85b0473f);
+            
+        
+
+        marker_71e0b9d31f543bc93f2e95daf360321b.bindPopup(popup_54f26007da45f6598ac76a50823cc3a7)
+        ;
+
+        
+    
+    
+            var marker_aef34f86f172bb44452d19b71e55f1d5 = L.marker(
+                [38.9208864, -77.0722439],
+                {}
+            ).addTo(map_30e05f40cc6e15efbe4dbfaebcdf6fb1);
+        
+    
+            var icon_e4d409857a750ec5bc87e6a512de2141 = L.AwesomeMarkers.icon(
+                {&quot;extraClasses&quot;: &quot;fa-rotate-0&quot;, &quot;icon&quot;: &quot;cutlery&quot;, &quot;iconColor&quot;: &quot;white&quot;, &quot;markerColor&quot;: &quot;orange&quot;, &quot;prefix&quot;: &quot;glyphicon&quot;}
+            );
+            marker_aef34f86f172bb44452d19b71e55f1d5.setIcon(icon_e4d409857a750ec5bc87e6a512de2141);
+        
+    
+        var popup_d23a30c513fc2cf70b0bbcc72d441de4 = L.popup({&quot;maxWidth&quot;: &quot;100%&quot;});
+
+        
+            
+                var html_8b077389b2cb56f780109439673691dd = $(`<div id=&quot;html_8b077389b2cb56f780109439673691dd&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;>Chipotle: Chipotle Mexican Grill<br>2338 Wisconsin Ave NW, Washington, DC 20007, United States</div>`)[0];
+                popup_d23a30c513fc2cf70b0bbcc72d441de4.setContent(html_8b077389b2cb56f780109439673691dd);
+            
+        
+
+        marker_aef34f86f172bb44452d19b71e55f1d5.bindPopup(popup_d23a30c513fc2cf70b0bbcc72d441de4)
+        ;
+
+        
+    
+    
+            var marker_6cc363f24a63ea32d3114f0036b53a6a = L.marker(
+                [38.9237207, -77.0520064],
+                {}
+            ).addTo(map_30e05f40cc6e15efbe4dbfaebcdf6fb1);
+        
+    
+            var icon_82046fcfd72f90b624531a09208f3a7f = L.AwesomeMarkers.icon(
+                {&quot;extraClasses&quot;: &quot;fa-rotate-0&quot;, &quot;icon&quot;: &quot;cutlery&quot;, &quot;iconColor&quot;: &quot;white&quot;, &quot;markerColor&quot;: &quot;orange&quot;, &quot;prefix&quot;: &quot;glyphicon&quot;}
+            );
+            marker_6cc363f24a63ea32d3114f0036b53a6a.setIcon(icon_82046fcfd72f90b624531a09208f3a7f);
+        
+    
+        var popup_a0621ab44c1ebfc2b0cdd707f20fe0dd = L.popup({&quot;maxWidth&quot;: &quot;100%&quot;});
+
+        
+            
+                var html_3494db70fc21e7a074bc01d000f00e79 = $(`<div id=&quot;html_3494db70fc21e7a074bc01d000f00e79&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;>Chipotle: Chipotle Mexican Grill<br>2600 Connecticut Ave NW, Washington, DC 20008, United States</div>`)[0];
+                popup_a0621ab44c1ebfc2b0cdd707f20fe0dd.setContent(html_3494db70fc21e7a074bc01d000f00e79);
+            
+        
+
+        marker_6cc363f24a63ea32d3114f0036b53a6a.bindPopup(popup_a0621ab44c1ebfc2b0cdd707f20fe0dd)
+        ;
+
+        
+    
+    
+            var marker_e2b5c3c3b82feb09fb1d7f92cb91834b = L.marker(
+                [38.9053797, -77.0645631],
+                {}
+            ).addTo(map_30e05f40cc6e15efbe4dbfaebcdf6fb1);
+        
+    
+            var icon_bcfb3ba699cebf376a21a97f1772f2ed = L.AwesomeMarkers.icon(
+                {&quot;extraClasses&quot;: &quot;fa-rotate-0&quot;, &quot;icon&quot;: &quot;cutlery&quot;, &quot;iconColor&quot;: &quot;white&quot;, &quot;markerColor&quot;: &quot;orange&quot;, &quot;prefix&quot;: &quot;glyphicon&quot;}
+            );
+            marker_e2b5c3c3b82feb09fb1d7f92cb91834b.setIcon(icon_bcfb3ba699cebf376a21a97f1772f2ed);
+        
+    
+        var popup_6530f51b67256456cd0bbb9cd4ff5411 = L.popup({&quot;maxWidth&quot;: &quot;100%&quot;});
+
+        
+            
+                var html_98d8a8bb0f6fdff1df8b3892610a8acb = $(`<div id=&quot;html_98d8a8bb0f6fdff1df8b3892610a8acb&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;>Chipotle: Chipotle Mexican Grill<br>3255 M St NW, Washington, DC 20007, United States</div>`)[0];
+                popup_6530f51b67256456cd0bbb9cd4ff5411.setContent(html_98d8a8bb0f6fdff1df8b3892610a8acb);
+            
+        
+
+        marker_e2b5c3c3b82feb09fb1d7f92cb91834b.bindPopup(popup_6530f51b67256456cd0bbb9cd4ff5411)
+        ;
+
+        
+    
+    
+            var marker_2db72bff9292a5b0134bcc765b96fcda = L.marker(
+                [38.9450161, -77.0777535],
+                {}
+            ).addTo(map_30e05f40cc6e15efbe4dbfaebcdf6fb1);
+        
+    
+            var icon_dad91a465a0b5977ef7cd6dada7ebfee = L.AwesomeMarkers.icon(
+                {&quot;extraClasses&quot;: &quot;fa-rotate-0&quot;, &quot;icon&quot;: &quot;cutlery&quot;, &quot;iconColor&quot;: &quot;white&quot;, &quot;markerColor&quot;: &quot;orange&quot;, &quot;prefix&quot;: &quot;glyphicon&quot;}
+            );
+            marker_2db72bff9292a5b0134bcc765b96fcda.setIcon(icon_dad91a465a0b5977ef7cd6dada7ebfee);
+        
+    
+        var popup_25d0957ad6d81bfa0977748356dbab33 = L.popup({&quot;maxWidth&quot;: &quot;100%&quot;});
+
+        
+            
+                var html_25cc87bc5870cd22e6da3cb657a3c87e = $(`<div id=&quot;html_25cc87bc5870cd22e6da3cb657a3c87e&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;>Chipotle: Chipotle Mexican Grill<br>4301 Wisconsin Ave NW, Washington, DC 20016, United States</div>`)[0];
+                popup_25d0957ad6d81bfa0977748356dbab33.setContent(html_25cc87bc5870cd22e6da3cb657a3c87e);
+            
+        
+
+        marker_2db72bff9292a5b0134bcc765b96fcda.bindPopup(popup_25d0957ad6d81bfa0977748356dbab33)
+        ;
+
+        
+    
+    
+            var marker_49fe30db6d2c53d46370574df53f921a = L.marker(
+                [38.9100156, -77.03225379999999],
+                {}
+            ).addTo(map_30e05f40cc6e15efbe4dbfaebcdf6fb1);
+        
+    
+            var icon_12b43b3afd4da533b4a4046fff8ed485 = L.AwesomeMarkers.icon(
+                {&quot;extraClasses&quot;: &quot;fa-rotate-0&quot;, &quot;icon&quot;: &quot;cutlery&quot;, &quot;iconColor&quot;: &quot;white&quot;, &quot;markerColor&quot;: &quot;orange&quot;, &quot;prefix&quot;: &quot;glyphicon&quot;}
+            );
+            marker_49fe30db6d2c53d46370574df53f921a.setIcon(icon_12b43b3afd4da533b4a4046fff8ed485);
+        
+    
+        var popup_6a4ce26583e60eb0e9454c34b8dce51e = L.popup({&quot;maxWidth&quot;: &quot;100%&quot;});
+
+        
+            
+                var html_d7beb9444c9ba7d8cadd31c47d2a8cb0 = $(`<div id=&quot;html_d7beb9444c9ba7d8cadd31c47d2a8cb0&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;>Chipotle: Chipotle Mexican Grill<br>1508 14th St NW, Washington, DC 20005, United States</div>`)[0];
+                popup_6a4ce26583e60eb0e9454c34b8dce51e.setContent(html_d7beb9444c9ba7d8cadd31c47d2a8cb0);
+            
+        
+
+        marker_49fe30db6d2c53d46370574df53f921a.bindPopup(popup_6a4ce26583e60eb0e9454c34b8dce51e)
+        ;
+
+        
+    
+    
+            var marker_53187525be6a12b0cc7d1961b69ee2d1 = L.marker(
+                [38.9296678, -77.0324207],
+                {}
+            ).addTo(map_30e05f40cc6e15efbe4dbfaebcdf6fb1);
+        
+    
+            var icon_2b4c4ea1ec3b851d8adfc6a1f66a9c85 = L.AwesomeMarkers.icon(
+                {&quot;extraClasses&quot;: &quot;fa-rotate-0&quot;, &quot;icon&quot;: &quot;cutlery&quot;, &quot;iconColor&quot;: &quot;white&quot;, &quot;markerColor&quot;: &quot;orange&quot;, &quot;prefix&quot;: &quot;glyphicon&quot;}
+            );
+            marker_53187525be6a12b0cc7d1961b69ee2d1.setIcon(icon_2b4c4ea1ec3b851d8adfc6a1f66a9c85);
+        
+    
+        var popup_1cee7c1dfe69c66177d34746e109a7e4 = L.popup({&quot;maxWidth&quot;: &quot;100%&quot;});
+
+        
+            
+                var html_1773f9abd51f361019d3f5a64a9b2cb8 = $(`<div id=&quot;html_1773f9abd51f361019d3f5a64a9b2cb8&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;>Chipotle: Chipotle Mexican Grill<br>3113 14th St NW, Washington, DC 20010, United States</div>`)[0];
+                popup_1cee7c1dfe69c66177d34746e109a7e4.setContent(html_1773f9abd51f361019d3f5a64a9b2cb8);
+            
+        
+
+        marker_53187525be6a12b0cc7d1961b69ee2d1.bindPopup(popup_1cee7c1dfe69c66177d34746e109a7e4)
+        ;
+
+        
+    
+    
+            var marker_58cb75ce403c012b4484fd36d6c4d24e = L.marker(
+                [38.9075, -77.0426852],
+                {}
+            ).addTo(map_30e05f40cc6e15efbe4dbfaebcdf6fb1);
+        
+    
+            var icon_01c67b0bd0b620a91d11c2a2f58a0f91 = L.AwesomeMarkers.icon(
+                {&quot;extraClasses&quot;: &quot;fa-rotate-0&quot;, &quot;icon&quot;: &quot;cutlery&quot;, &quot;iconColor&quot;: &quot;white&quot;, &quot;markerColor&quot;: &quot;orange&quot;, &quot;prefix&quot;: &quot;glyphicon&quot;}
+            );
+            marker_58cb75ce403c012b4484fd36d6c4d24e.setIcon(icon_01c67b0bd0b620a91d11c2a2f58a0f91);
+        
+    
+        var popup_7349e36f95210905c3b4347c935b2def = L.popup({&quot;maxWidth&quot;: &quot;100%&quot;});
+
+        
+            
+                var html_90d2208ecf2807ea008ac88d2ae17c23 = $(`<div id=&quot;html_90d2208ecf2807ea008ac88d2ae17c23&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;>Chipotle: Chipotle Mexican Grill<br>1300 Connecticut Ave NW, Washington, DC 20036, United States</div>`)[0];
+                popup_7349e36f95210905c3b4347c935b2def.setContent(html_90d2208ecf2807ea008ac88d2ae17c23);
+            
+        
+
+        marker_58cb75ce403c012b4484fd36d6c4d24e.bindPopup(popup_7349e36f95210905c3b4347c935b2def)
+        ;
+
+        
+    
+    
+            var marker_6acfef72e5b4f22a6b5573289fe46eba = L.marker(
+                [38.900578, -77.0451731],
+                {}
+            ).addTo(map_30e05f40cc6e15efbe4dbfaebcdf6fb1);
+        
+    
+            var icon_e04b71c8eb47c7f1cef8bbf49cca7c55 = L.AwesomeMarkers.icon(
+                {&quot;extraClasses&quot;: &quot;fa-rotate-0&quot;, &quot;icon&quot;: &quot;cutlery&quot;, &quot;iconColor&quot;: &quot;white&quot;, &quot;markerColor&quot;: &quot;orange&quot;, &quot;prefix&quot;: &quot;glyphicon&quot;}
+            );
+            marker_6acfef72e5b4f22a6b5573289fe46eba.setIcon(icon_e04b71c8eb47c7f1cef8bbf49cca7c55);
+        
+    
+        var popup_97e95b6dfbb5a87ff55dd8824956e639 = L.popup({&quot;maxWidth&quot;: &quot;100%&quot;});
+
+        
+            
+                var html_1c08e90ccf7cbea2a07cafe08e84f8b2 = $(`<div id=&quot;html_1c08e90ccf7cbea2a07cafe08e84f8b2&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;>Chipotle: Chipotle Mexican Grill<br>2000 Pennsylvania Avenue NW, Washington, DC 20006, United States</div>`)[0];
+                popup_97e95b6dfbb5a87ff55dd8824956e639.setContent(html_1c08e90ccf7cbea2a07cafe08e84f8b2);
+            
+        
+
+        marker_6acfef72e5b4f22a6b5573289fe46eba.bindPopup(popup_97e95b6dfbb5a87ff55dd8824956e639)
+        ;
+
+        
+    
+    
+            var marker_ed5a951e406ea703c5e320ccba5ed413 = L.marker(
+                [38.90308, -77.033715],
+                {}
+            ).addTo(map_30e05f40cc6e15efbe4dbfaebcdf6fb1);
+        
+    
+            var icon_925a0dff6cc66fd7e6651b5163f2e147 = L.AwesomeMarkers.icon(
+                {&quot;extraClasses&quot;: &quot;fa-rotate-0&quot;, &quot;icon&quot;: &quot;cutlery&quot;, &quot;iconColor&quot;: &quot;white&quot;, &quot;markerColor&quot;: &quot;orange&quot;, &quot;prefix&quot;: &quot;glyphicon&quot;}
+            );
+            marker_ed5a951e406ea703c5e320ccba5ed413.setIcon(icon_925a0dff6cc66fd7e6651b5163f2e147);
+        
+    
+        var popup_1a7221c624c5267316c46158814ba7b7 = L.popup({&quot;maxWidth&quot;: &quot;100%&quot;});
+
+        
+            
+                var html_6dd9ff94994ae01e112433323f63a3a8 = $(`<div id=&quot;html_6dd9ff94994ae01e112433323f63a3a8&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;>Chipotle: Chipotle Mexican Grill<br>1010 Vermont Ave NW Suite 101, Washington, DC 20005, United States</div>`)[0];
+                popup_1a7221c624c5267316c46158814ba7b7.setContent(html_6dd9ff94994ae01e112433323f63a3a8);
+            
+        
+
+        marker_ed5a951e406ea703c5e320ccba5ed413.bindPopup(popup_1a7221c624c5267316c46158814ba7b7)
+        ;
+
+        
+    
+    
+            var marker_0e9e462b6edf1b8573f5084047021bf0 = L.marker(
+                [38.9210882, -77.0218647],
+                {}
+            ).addTo(map_30e05f40cc6e15efbe4dbfaebcdf6fb1);
+        
+    
+            var icon_73caf0b7a585e483f771a39760e4187a = L.AwesomeMarkers.icon(
+                {&quot;extraClasses&quot;: &quot;fa-rotate-0&quot;, &quot;icon&quot;: &quot;cutlery&quot;, &quot;iconColor&quot;: &quot;white&quot;, &quot;markerColor&quot;: &quot;orange&quot;, &quot;prefix&quot;: &quot;glyphicon&quot;}
+            );
+            marker_0e9e462b6edf1b8573f5084047021bf0.setIcon(icon_73caf0b7a585e483f771a39760e4187a);
+        
+    
+        var popup_c0ae5db83b47d6e1e92ef2d9b82da2e2 = L.popup({&quot;maxWidth&quot;: &quot;100%&quot;});
+
+        
+            
+                var html_35f22c213447f0822ef5be890cb1dafe = $(`<div id=&quot;html_35f22c213447f0822ef5be890cb1dafe&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;>Chipotle: Chipotle Mexican Grill<br>2301 Georgia Ave NW, Washington, DC 20001, United States</div>`)[0];
+                popup_c0ae5db83b47d6e1e92ef2d9b82da2e2.setContent(html_35f22c213447f0822ef5be890cb1dafe);
+            
+        
+
+        marker_0e9e462b6edf1b8573f5084047021bf0.bindPopup(popup_c0ae5db83b47d6e1e92ef2d9b82da2e2)
+        ;
+
+        
+    
+    
+            var marker_192a51bbbe0cbde78409310507f74fb9 = L.marker(
+                [38.8989526, -77.0221044],
+                {}
+            ).addTo(map_30e05f40cc6e15efbe4dbfaebcdf6fb1);
+        
+    
+            var icon_841d19379eaf200686cfd73c9e2f006a = L.AwesomeMarkers.icon(
+                {&quot;extraClasses&quot;: &quot;fa-rotate-0&quot;, &quot;icon&quot;: &quot;cutlery&quot;, &quot;iconColor&quot;: &quot;white&quot;, &quot;markerColor&quot;: &quot;orange&quot;, &quot;prefix&quot;: &quot;glyphicon&quot;}
+            );
+            marker_192a51bbbe0cbde78409310507f74fb9.setIcon(icon_841d19379eaf200686cfd73c9e2f006a);
+        
+    
+        var popup_fb602fa84195919087221894b3b5913c = L.popup({&quot;maxWidth&quot;: &quot;100%&quot;});
+
+        
+            
+                var html_0e7d2a8559fb54d12108e1422579958a = $(`<div id=&quot;html_0e7d2a8559fb54d12108e1422579958a&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;>Chipotle: Chipotle Mexican Grill<br>710 7th St NW, Washington, DC 20001, United States</div>`)[0];
+                popup_fb602fa84195919087221894b3b5913c.setContent(html_0e7d2a8559fb54d12108e1422579958a);
+            
+        
+
+        marker_192a51bbbe0cbde78409310507f74fb9.bindPopup(popup_fb602fa84195919087221894b3b5913c)
+        ;
+
+        
+    
+    
+            var marker_d465c66e25e33c83c8c1c329d976fc8b = L.marker(
+                [38.90504079999999, -77.01238699999999],
+                {}
+            ).addTo(map_30e05f40cc6e15efbe4dbfaebcdf6fb1);
+        
+    
+            var icon_6d948ac37f842a5527fd9c4a24503cdf = L.AwesomeMarkers.icon(
+                {&quot;extraClasses&quot;: &quot;fa-rotate-0&quot;, &quot;icon&quot;: &quot;cutlery&quot;, &quot;iconColor&quot;: &quot;white&quot;, &quot;markerColor&quot;: &quot;orange&quot;, &quot;prefix&quot;: &quot;glyphicon&quot;}
+            );
+            marker_d465c66e25e33c83c8c1c329d976fc8b.setIcon(icon_6d948ac37f842a5527fd9c4a24503cdf);
+        
+    
+        var popup_89b69dd0a3764861043ea1d2dd54dca1 = L.popup({&quot;maxWidth&quot;: &quot;100%&quot;});
+
+        
+            
+                var html_139863486bd2471d5123a0669fb63664 = $(`<div id=&quot;html_139863486bd2471d5123a0669fb63664&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;>Chipotle: Chipotle Mexican Grill<br>1150 First St NE #103, Washington, DC 20002, United States</div>`)[0];
+                popup_89b69dd0a3764861043ea1d2dd54dca1.setContent(html_139863486bd2471d5123a0669fb63664);
+            
+        
+
+        marker_d465c66e25e33c83c8c1c329d976fc8b.bindPopup(popup_89b69dd0a3764861043ea1d2dd54dca1)
+        ;
+
+        
+    
+    
+            var marker_699f65195d1af7774f79e8e3d5272c0c = L.marker(
+                [38.9031367, -77.0187644],
+                {}
+            ).addTo(map_30e05f40cc6e15efbe4dbfaebcdf6fb1);
+        
+    
+            var icon_bdde299c5f6e9db6215c2bf58c9c2047 = L.AwesomeMarkers.icon(
+                {&quot;extraClasses&quot;: &quot;fa-rotate-0&quot;, &quot;icon&quot;: &quot;cutlery&quot;, &quot;iconColor&quot;: &quot;white&quot;, &quot;markerColor&quot;: &quot;orange&quot;, &quot;prefix&quot;: &quot;glyphicon&quot;}
+            );
+            marker_699f65195d1af7774f79e8e3d5272c0c.setIcon(icon_bdde299c5f6e9db6215c2bf58c9c2047);
+        
+    
+        var popup_5a14e25cb43e4e5d79e29c80971b36be = L.popup({&quot;maxWidth&quot;: &quot;100%&quot;});
+
+        
+            
+                var html_3836b28b76d40ea1ed9660d0d7c1184a = $(`<div id=&quot;html_3836b28b76d40ea1ed9660d0d7c1184a&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;>Chipotle: Chipotle Mexican Grill<br>1045 5th St NW, Washington, DC 20001, United States</div>`)[0];
+                popup_5a14e25cb43e4e5d79e29c80971b36be.setContent(html_3836b28b76d40ea1ed9660d0d7c1184a);
+            
+        
+
+        marker_699f65195d1af7774f79e8e3d5272c0c.bindPopup(popup_5a14e25cb43e4e5d79e29c80971b36be)
+        ;
+
+        
+    
+    
+            var marker_7ea899688a427e339acc7bc16a6b3ebc = L.marker(
+                [38.89599, -77.02615999999999],
+                {}
+            ).addTo(map_30e05f40cc6e15efbe4dbfaebcdf6fb1);
+        
+    
+            var icon_c53fcd2cfcc240383d4dc0fe54bdd7e5 = L.AwesomeMarkers.icon(
+                {&quot;extraClasses&quot;: &quot;fa-rotate-0&quot;, &quot;icon&quot;: &quot;cutlery&quot;, &quot;iconColor&quot;: &quot;white&quot;, &quot;markerColor&quot;: &quot;orange&quot;, &quot;prefix&quot;: &quot;glyphicon&quot;}
+            );
+            marker_7ea899688a427e339acc7bc16a6b3ebc.setIcon(icon_c53fcd2cfcc240383d4dc0fe54bdd7e5);
+        
+    
+        var popup_ae80e50afe7f60618dcc0041ee9c7bf5 = L.popup({&quot;maxWidth&quot;: &quot;100%&quot;});
+
+        
+            
+                var html_f9d0c43d5a743500e11d97bc022dee46 = $(`<div id=&quot;html_f9d0c43d5a743500e11d97bc022dee46&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;>Chipotle: Chipotle Mexican Grill<br>1001 Pennsylvania Avenue NW, Washington, DC 20004, United States</div>`)[0];
+                popup_ae80e50afe7f60618dcc0041ee9c7bf5.setContent(html_f9d0c43d5a743500e11d97bc022dee46);
+            
+        
+
+        marker_7ea899688a427e339acc7bc16a6b3ebc.bindPopup(popup_ae80e50afe7f60618dcc0041ee9c7bf5)
+        ;
+
+        
+    
+    
+            var marker_91d420ffdb5cf60206d61826b16266b8 = L.marker(
+                [38.9047809, -77.0060565],
+                {}
+            ).addTo(map_30e05f40cc6e15efbe4dbfaebcdf6fb1);
+        
+    
+            var icon_27d0075e37cc9911b033c9966757b03a = L.AwesomeMarkers.icon(
+                {&quot;extraClasses&quot;: &quot;fa-rotate-0&quot;, &quot;icon&quot;: &quot;cutlery&quot;, &quot;iconColor&quot;: &quot;white&quot;, &quot;markerColor&quot;: &quot;orange&quot;, &quot;prefix&quot;: &quot;glyphicon&quot;}
+            );
+            marker_91d420ffdb5cf60206d61826b16266b8.setIcon(icon_27d0075e37cc9911b033c9966757b03a);
+        
+    
+        var popup_e5b4d1cb39564b1f1f312b49b936ad73 = L.popup({&quot;maxWidth&quot;: &quot;100%&quot;});
+
+        
+            
+                var html_3745957c77efd722a4c74ef6fee68dd9 = $(`<div id=&quot;html_3745957c77efd722a4c74ef6fee68dd9&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;>Chipotle: Chipotle NoMa<br>1150 First St NE, Washington, DC 20002, United States</div>`)[0];
+                popup_e5b4d1cb39564b1f1f312b49b936ad73.setContent(html_3745957c77efd722a4c74ef6fee68dd9);
+            
+        
+
+        marker_91d420ffdb5cf60206d61826b16266b8.bindPopup(popup_e5b4d1cb39564b1f1f312b49b936ad73)
+        ;
+
+        
+    
+    
+            var marker_1dd184f9fc6fa327b704df693b93757a = L.marker(
+                [38.9208758, -76.9939977],
+                {}
+            ).addTo(map_30e05f40cc6e15efbe4dbfaebcdf6fb1);
+        
+    
+            var icon_4441fa33376000c719778438fcf196b8 = L.AwesomeMarkers.icon(
+                {&quot;extraClasses&quot;: &quot;fa-rotate-0&quot;, &quot;icon&quot;: &quot;cutlery&quot;, &quot;iconColor&quot;: &quot;white&quot;, &quot;markerColor&quot;: &quot;orange&quot;, &quot;prefix&quot;: &quot;glyphicon&quot;}
+            );
+            marker_1dd184f9fc6fa327b704df693b93757a.setIcon(icon_4441fa33376000c719778438fcf196b8);
+        
+    
+        var popup_a2885edd84ea569201cc7b8a48e9cee5 = L.popup({&quot;maxWidth&quot;: &quot;100%&quot;});
+
+        
+            
+                var html_5ff95eacf790fe081f40479458989f21 = $(`<div id=&quot;html_5ff95eacf790fe081f40479458989f21&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;>Chipotle: Chipotle Mexican Grill<br>2300 Washington Pl NE Ste 101S, Washington, DC 20018, United States</div>`)[0];
+                popup_a2885edd84ea569201cc7b8a48e9cee5.setContent(html_5ff95eacf790fe081f40479458989f21);
+            
+        
+
+        marker_1dd184f9fc6fa327b704df693b93757a.bindPopup(popup_a2885edd84ea569201cc7b8a48e9cee5)
+        ;
+
+        
+    
+    
+            var marker_e85af4d70165654f3fbb104494fb0f63 = L.marker(
+                [38.9321815, -76.9963862],
+                {}
+            ).addTo(map_30e05f40cc6e15efbe4dbfaebcdf6fb1);
+        
+    
+            var icon_72d507046256c25ea3acef8a28299b10 = L.AwesomeMarkers.icon(
+                {&quot;extraClasses&quot;: &quot;fa-rotate-0&quot;, &quot;icon&quot;: &quot;cutlery&quot;, &quot;iconColor&quot;: &quot;white&quot;, &quot;markerColor&quot;: &quot;orange&quot;, &quot;prefix&quot;: &quot;glyphicon&quot;}
+            );
+            marker_e85af4d70165654f3fbb104494fb0f63.setIcon(icon_72d507046256c25ea3acef8a28299b10);
+        
+    
+        var popup_dda9dfdb72d291a02264c7e2cf31ffe3 = L.popup({&quot;maxWidth&quot;: &quot;100%&quot;});
+
+        
+            
+                var html_7b2dfbba4e7d2e6e9477bf5f65bd469b = $(`<div id=&quot;html_7b2dfbba4e7d2e6e9477bf5f65bd469b&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;>Chipotle: Chipotle Mexican Grill<br>625 Monroe St NE, Washington, DC 20017, United States</div>`)[0];
+                popup_dda9dfdb72d291a02264c7e2cf31ffe3.setContent(html_7b2dfbba4e7d2e6e9477bf5f65bd469b);
+            
+        
+
+        marker_e85af4d70165654f3fbb104494fb0f63.bindPopup(popup_dda9dfdb72d291a02264c7e2cf31ffe3)
+        ;
+
+        
+    
+    
+            var marker_4857835c83b165701f263b153c1278bf = L.marker(
+                [38.897635, -77.0068343],
+                {}
+            ).addTo(map_30e05f40cc6e15efbe4dbfaebcdf6fb1);
+        
+    
+            var icon_b7c17fe6238736616791d3b7b4ef0032 = L.AwesomeMarkers.icon(
+                {&quot;extraClasses&quot;: &quot;fa-rotate-0&quot;, &quot;icon&quot;: &quot;cutlery&quot;, &quot;iconColor&quot;: &quot;white&quot;, &quot;markerColor&quot;: &quot;orange&quot;, &quot;prefix&quot;: &quot;glyphicon&quot;}
+            );
+            marker_4857835c83b165701f263b153c1278bf.setIcon(icon_b7c17fe6238736616791d3b7b4ef0032);
+        
+    
+        var popup_b558666f45b42475426f7d2ddceb1690 = L.popup({&quot;maxWidth&quot;: &quot;100%&quot;});
+
+        
+            
+                var html_33d6bdadf75e6f3eabe24fa278aef71d = $(`<div id=&quot;html_33d6bdadf75e6f3eabe24fa278aef71d&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;>Chipotle: Chipotle Mexican Grill<br>50 Massachusetts Ave NE, Washington, DC 20002, United States</div>`)[0];
+                popup_b558666f45b42475426f7d2ddceb1690.setContent(html_33d6bdadf75e6f3eabe24fa278aef71d);
+            
+        
+
+        marker_4857835c83b165701f263b153c1278bf.bindPopup(popup_b558666f45b42475426f7d2ddceb1690)
+        ;
+
+        
+    
+    
+            var marker_c8d885b722566da52a0cb893bbec4ab9 = L.marker(
+                [38.8979479, -77.0062458],
+                {}
+            ).addTo(map_30e05f40cc6e15efbe4dbfaebcdf6fb1);
+        
+    
+            var icon_d5a1b78f018671d5ee596f572abcb26f = L.AwesomeMarkers.icon(
+                {&quot;extraClasses&quot;: &quot;fa-rotate-0&quot;, &quot;icon&quot;: &quot;cutlery&quot;, &quot;iconColor&quot;: &quot;white&quot;, &quot;markerColor&quot;: &quot;orange&quot;, &quot;prefix&quot;: &quot;glyphicon&quot;}
+            );
+            marker_c8d885b722566da52a0cb893bbec4ab9.setIcon(icon_d5a1b78f018671d5ee596f572abcb26f);
+        
+    
+        var popup_a5fb9ca1e11ac8efce11ca97350fb987 = L.popup({&quot;maxWidth&quot;: &quot;100%&quot;});
+
+        
+            
+                var html_d0a8cd590fd54982ddb793b4832fe286 = $(`<div id=&quot;html_d0a8cd590fd54982ddb793b4832fe286&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;>Chipotle: Chipotle Mexican Grill<br>40 Massachusetts Ave NE, Washington, DC 20002, United States</div>`)[0];
+                popup_a5fb9ca1e11ac8efce11ca97350fb987.setContent(html_d0a8cd590fd54982ddb793b4832fe286);
+            
+        
+
+        marker_c8d885b722566da52a0cb893bbec4ab9.bindPopup(popup_a5fb9ca1e11ac8efce11ca97350fb987)
+        ;
+
+        
+    
+    
+            var marker_a2cd9e76b19fc9f54786eae1f9c4488f = L.marker(
+                [38.8832538, -76.9952747],
+                {}
+            ).addTo(map_30e05f40cc6e15efbe4dbfaebcdf6fb1);
+        
+    
+            var icon_a7d26a9bc218981ebf10e003b0905378 = L.AwesomeMarkers.icon(
+                {&quot;extraClasses&quot;: &quot;fa-rotate-0&quot;, &quot;icon&quot;: &quot;cutlery&quot;, &quot;iconColor&quot;: &quot;white&quot;, &quot;markerColor&quot;: &quot;orange&quot;, &quot;prefix&quot;: &quot;glyphicon&quot;}
+            );
+            marker_a2cd9e76b19fc9f54786eae1f9c4488f.setIcon(icon_a7d26a9bc218981ebf10e003b0905378);
+        
+    
+        var popup_1ab0bf7a0b4e283b9749f4a264aa0bba = L.popup({&quot;maxWidth&quot;: &quot;100%&quot;});
+
+        
+            
+                var html_09cc948f625c9b491526af67fe1e2389 = $(`<div id=&quot;html_09cc948f625c9b491526af67fe1e2389&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;>Chipotle: Chipotle Mexican Grill<br>413 8th St SE, Washington, DC 20003, United States</div>`)[0];
+                popup_1ab0bf7a0b4e283b9749f4a264aa0bba.setContent(html_09cc948f625c9b491526af67fe1e2389);
+            
+        
+
+        marker_a2cd9e76b19fc9f54786eae1f9c4488f.bindPopup(popup_1ab0bf7a0b4e283b9749f4a264aa0bba)
+        ;
+
+        
+    
+    
+            tile_layer_bb6da3ac4c4b9fbc4b96e2a892ad8fda.addTo(map_30e05f40cc6e15efbe4dbfaebcdf6fb1);
+        
+</script>
+</html>" style="position:absolute;width:100%;height:100%;left:0;top:0;border:none !important;" allowfullscreen="" webkitallowfullscreen="" mozallowfullscreen=""></iframe></div></div>
+</div>
+</div></div>
+<div class="cell-container"><div class="cell-decorator"><pre>In [18]:</pre></div><div id="cell-8" class="cell" data-execution_count="18">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> folium.plugins <span class="im">import</span> HeatMap</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> folium</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a base map centered on Washington, D.C.</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>map_center <span class="op">=</span> [<span class="fl">38.9072</span>, <span class="op">-</span><span class="fl">77.0369</span>]  <span class="co"># Latitude, Longitude</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>heatmap <span class="op">=</span> folium.Map(location<span class="op">=</span>map_center, zoom_start<span class="op">=</span><span class="dv">12</span>)</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Prepare data for Sweetgreen heatmap (latitudes and longitudes)</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>sweetgreen_heat_data <span class="op">=</span> sweetgreen_df[[<span class="st">'lat'</span>, <span class="st">'lng'</span>]].values.tolist()</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Add Sweetgreen HeatMap</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>HeatMap(sweetgreen_heat_data, radius<span class="op">=</span><span class="dv">15</span>, gradient<span class="op">=</span>{<span class="fl">0.2</span>: <span class="st">'blue'</span>, <span class="fl">0.5</span>: <span class="st">'lime'</span>, <span class="fl">0.8</span>: <span class="st">'red'</span>}).add_to(heatmap)</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Prepare data for Chipotle heatmap</span></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>chipotle_heat_data <span class="op">=</span> chipotle_df[[<span class="st">'lat'</span>, <span class="st">'lng'</span>]].values.tolist()</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Add Chipotle HeatMap</span></span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>HeatMap(chipotle_heat_data, radius<span class="op">=</span><span class="dv">15</span>, gradient<span class="op">=</span>{<span class="fl">0.2</span>: <span class="st">'purple'</span>, <span class="fl">0.5</span>: <span class="st">'orange'</span>, <span class="fl">0.8</span>: <span class="st">'yellow'</span>}).add_to(heatmap)</span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Save the heatmap to an HTML file</span></span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>heatmap.save(<span class="st">"sweetgreen_chipotle_heatmap.html"</span>)</span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>heatmap</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="18">
+<div style="width:100%;"><div style="position:relative;width:100%;height:0;padding-bottom:60%;"><span style="color:#565656">Make this Notebook Trusted to load map: File -&gt; Trust Notebook</span><iframe srcdoc="<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv=&quot;content-type&quot; content=&quot;text/html; charset=UTF-8&quot; />
+    
+        <script>
+            L_NO_TOUCH = false;
+            L_DISABLE_3D = false;
+        </script>
+    
+    <style>html, body {width: 100%;height: 100%;margin: 0;padding: 0;}</style>
+    <style>#map {position:absolute;top:0;bottom:0;right:0;left:0;}</style>
+    <script src=&quot;https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js&quot;></script>
+    <script src=&quot;https://code.jquery.com/jquery-3.7.1.min.js&quot;></script>
+    <script src=&quot;https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js&quot;></script>
+    <script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js&quot;></script>
+    <link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css&quot;/>
+    <link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css&quot;/>
+    <link rel=&quot;stylesheet&quot; href=&quot;https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css&quot;/>
+    <link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css&quot;/>
+    <link rel=&quot;stylesheet&quot; href=&quot;https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css&quot;/>
+    <link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css&quot;/>
+    
+            <meta name=&quot;viewport&quot; content=&quot;width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no&quot; />
+            <style>
+                #map_b2e3b1e973e941886651018ab86df702 {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+        
+    <script src=&quot;https://cdn.jsdelivr.net/gh/python-visualization/folium@main/folium/templates/leaflet_heat.min.js&quot;></script>
+</head>
+<body>
+    
+    
+            <div class=&quot;folium-map&quot; id=&quot;map_b2e3b1e973e941886651018ab86df702&quot; ></div>
+        
+</body>
+<script>
+    
+    
+            var map_b2e3b1e973e941886651018ab86df702 = L.map(
+                &quot;map_b2e3b1e973e941886651018ab86df702&quot;,
+                {
+                    center: [38.9072, -77.0369],
+                    crs: L.CRS.EPSG3857,
+                    zoom: 12,
+                    zoomControl: true,
+                    preferCanvas: false,
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_1dc6e3af477201de7bcd9d3c6a8c5b0b = L.tileLayer(
+                &quot;https://tile.openstreetmap.org/{z}/{x}/{y}.png&quot;,
+                {&quot;attribution&quot;: &quot;\u0026copy; \u003ca href=\&quot;https://www.openstreetmap.org/copyright\&quot;\u003eOpenStreetMap\u003c/a\u003e contributors&quot;, &quot;detectRetina&quot;: false, &quot;maxNativeZoom&quot;: 19, &quot;maxZoom&quot;: 19, &quot;minZoom&quot;: 0, &quot;noWrap&quot;: false, &quot;opacity&quot;: 1, &quot;subdomains&quot;: &quot;abc&quot;, &quot;tms&quot;: false}
+            );
+        
+    
+            tile_layer_1dc6e3af477201de7bcd9d3c6a8c5b0b.addTo(map_b2e3b1e973e941886651018ab86df702);
+        
+    
+            var heat_map_2eea1411ccbab0e9afb7db62eb3295bd = L.heatLayer(
+                [[38.9011795, -77.0400105], [38.9193652, -77.03125639999999], [38.905112, -77.0493497], [38.8870647, -77.0026924], [38.9104708, -77.0441824], [38.9098374, -77.0339645], [38.9037977, -77.0629302], [38.8960213, -77.0213797], [38.9009086, -77.0496211], [38.9017462, -77.0200861], [38.8751397, -77.00036659999999], [38.8963197, -77.0710847], [38.862587, -77.05636989999999], [38.8543928, -77.049751], [38.9951025, -77.02683809999999], [38.9094363, -76.9992036]],
+                {&quot;blur&quot;: 15, &quot;gradient&quot;: {&quot;0.2&quot;: &quot;blue&quot;, &quot;0.5&quot;: &quot;lime&quot;, &quot;0.8&quot;: &quot;red&quot;}, &quot;maxZoom&quot;: 18, &quot;minOpacity&quot;: 0.5, &quot;radius&quot;: 15}
+            );
+        
+    
+            heat_map_2eea1411ccbab0e9afb7db62eb3295bd.addTo(map_b2e3b1e973e941886651018ab86df702);
+        
+    
+            var heat_map_b9e0f36bfb2697bb71161e1636374ab5 = L.heatLayer(
+                [[38.9208864, -77.0722439], [38.9237207, -77.0520064], [38.9053797, -77.0645631], [38.9450161, -77.0777535], [38.9100156, -77.03225379999999], [38.9296678, -77.0324207], [38.9075, -77.0426852], [38.900578, -77.0451731], [38.90308, -77.033715], [38.9210882, -77.0218647], [38.8989526, -77.0221044], [38.90504079999999, -77.01238699999999], [38.9031367, -77.0187644], [38.89599, -77.02615999999999], [38.9047809, -77.0060565], [38.9208758, -76.9939977], [38.9321815, -76.9963862], [38.897635, -77.0068343], [38.8979479, -77.0062458], [38.8832538, -76.9952747]],
+                {&quot;blur&quot;: 15, &quot;gradient&quot;: {&quot;0.2&quot;: &quot;purple&quot;, &quot;0.5&quot;: &quot;orange&quot;, &quot;0.8&quot;: &quot;yellow&quot;}, &quot;maxZoom&quot;: 18, &quot;minOpacity&quot;: 0.5, &quot;radius&quot;: 15}
+            );
+        
+    
+            heat_map_b9e0f36bfb2697bb71161e1636374ab5.addTo(map_b2e3b1e973e941886651018ab86df702);
+        
+    
+            tile_layer_1dc6e3af477201de7bcd9d3c6a8c5b0b.addTo(map_b2e3b1e973e941886651018ab86df702);
+        
+    
+            heat_map_2eea1411ccbab0e9afb7db62eb3295bd.addTo(map_b2e3b1e973e941886651018ab86df702);
+        
+    
+            heat_map_b9e0f36bfb2697bb71161e1636374ab5.addTo(map_b2e3b1e973e941886651018ab86df702);
+        
+</script>
+</html>" style="position:absolute;width:100%;height:100%;left:0;top:0;border:none !important;" allowfullscreen="" webkitallowfullscreen="" mozallowfullscreen=""></iframe></div></div>
+</div>
+</div></div>
+<div id="cell-9" class="cell markdown">
+<section id="monte-carlo-simulation" class="level1">
+<h1>Monte carlo simulation</h1>
+</section>
+</div>
+<div id="cell-10" class="cell markdown">
+<p>Do a Monte Carlo simulation to analyze whether the observed average distances between Sweetgreen and Chipotle locations differ significantly from what would be expected if Chipotle locations were randomly distributed.</p>
+<p>Steps: - Calculate observed distances between Sweetgreen and Chipotle using the minimum distance to a Chipotle for each Sweetgreen location. - Randomize Chipotle locations within the bounding box (longitude-latitude range of original Chipotle locations). - Repeat this process for the specified number of simulations, storing the average distance for each simulation.</p>
+</div>
+<div class="cell-container"><div class="cell-decorator"><pre>In [27]:</pre></div><div id="cell-11" class="cell" data-execution_count="27">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.spatial <span class="im">import</span> distance</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Monte Carlo Simulation to compare average distances between Sweetgreen and Chipotle</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> monte_carlo_simulation(sweetgreen_coords, chipotle_coords, num_simulations<span class="op">=</span><span class="dv">100000</span>):</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="co">    Perform a Monte Carlo simulation to test the hypothesis:</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="co">    Are the observed distances between Sweetgreen and Chipotle locations</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="co">    significantly different from random placement?</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a><span class="co">    Args:</span></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a><span class="co">        sweetgreen_coords: Array of Sweetgreen coordinates.</span></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a><span class="co">        chipotle_coords: Array of Chipotle coordinates.</span></span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a><span class="co">        num_simulations: Number of Monte Carlo simulations.</span></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a><span class="co">    Returns:</span></span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a><span class="co">        Observed average distance, distribution of simulated distances.</span></span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>    observed_distances <span class="op">=</span> distance.cdist(sweetgreen_coords, chipotle_coords).<span class="bu">min</span>(axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>    observed_avg_distance <span class="op">=</span> observed_distances.mean()</span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Simulated distances</span></span>
+<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a>    simulated_avg_distances <span class="op">=</span> []</span>
+<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(num_simulations):</span>
+<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Randomize Chipotle locations within the bounding box</span></span>
+<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a>        randomized_chipotle_coords <span class="op">=</span> np.random.uniform(</span>
+<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a>            low<span class="op">=</span>[chipotle_coords[:, <span class="dv">0</span>].<span class="bu">min</span>(), chipotle_coords[:, <span class="dv">1</span>].<span class="bu">min</span>()],</span>
+<span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a>            high<span class="op">=</span>[chipotle_coords[:, <span class="dv">0</span>].<span class="bu">max</span>(), chipotle_coords[:, <span class="dv">1</span>].<span class="bu">max</span>()],</span>
+<span id="cb10-31"><a href="#cb10-31" aria-hidden="true" tabindex="-1"></a>            size<span class="op">=</span>chipotle_coords.shape</span>
+<span id="cb10-32"><a href="#cb10-32" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb10-33"><a href="#cb10-33" aria-hidden="true" tabindex="-1"></a>        simulated_distances <span class="op">=</span> distance.cdist(sweetgreen_coords, randomized_chipotle_coords).<span class="bu">min</span>(axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb10-34"><a href="#cb10-34" aria-hidden="true" tabindex="-1"></a>        simulated_avg_distances.append(simulated_distances.mean())</span>
+<span id="cb10-35"><a href="#cb10-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-36"><a href="#cb10-36" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> observed_avg_distance, simulated_avg_distances</span>
+<span id="cb10-37"><a href="#cb10-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-38"><a href="#cb10-38" aria-hidden="true" tabindex="-1"></a><span class="co"># Prepare data</span></span>
+<span id="cb10-39"><a href="#cb10-39" aria-hidden="true" tabindex="-1"></a>sweetgreen_coords <span class="op">=</span> np.array(sweetgreen_df[[<span class="st">'lng'</span>, <span class="st">'lat'</span>]])</span>
+<span id="cb10-40"><a href="#cb10-40" aria-hidden="true" tabindex="-1"></a>chipotle_coords <span class="op">=</span> np.array(chipotle_df[[<span class="st">'lng'</span>, <span class="st">'lat'</span>]])</span>
+<span id="cb10-41"><a href="#cb10-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-42"><a href="#cb10-42" aria-hidden="true" tabindex="-1"></a><span class="co"># Run Monte Carlo Simulation</span></span>
+<span id="cb10-43"><a href="#cb10-43" aria-hidden="true" tabindex="-1"></a>observed_avg_distance, simulated_avg_distances <span class="op">=</span> monte_carlo_simulation(</span>
+<span id="cb10-44"><a href="#cb10-44" aria-hidden="true" tabindex="-1"></a>    sweetgreen_coords, chipotle_coords, num_simulations<span class="op">=</span><span class="dv">1000</span></span>
+<span id="cb10-45"><a href="#cb10-45" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb10-46"><a href="#cb10-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-47"><a href="#cb10-47" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the distribution of simulated distances and observed distance</span></span>
+<span id="cb10-48"><a href="#cb10-48" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">6</span>))</span>
+<span id="cb10-49"><a href="#cb10-49" aria-hidden="true" tabindex="-1"></a>plt.hist(simulated_avg_distances, bins<span class="op">=</span><span class="dv">30</span>, color<span class="op">=</span><span class="st">'blue'</span>, alpha<span class="op">=</span><span class="fl">0.7</span>, label<span class="op">=</span><span class="st">"Simulated Avg Distances"</span>)</span>
+<span id="cb10-50"><a href="#cb10-50" aria-hidden="true" tabindex="-1"></a>plt.axvline(observed_avg_distance, color<span class="op">=</span><span class="st">'red'</span>, linestyle<span class="op">=</span><span class="st">'--'</span>, linewidth<span class="op">=</span><span class="dv">2</span>, label<span class="op">=</span><span class="st">"Observed Avg Distance"</span>)</span>
+<span id="cb10-51"><a href="#cb10-51" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Monte Carlo Simulation: Sweetgreen-Chipotle Proximity"</span>)</span>
+<span id="cb10-52"><a href="#cb10-52" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"Average Distance"</span>)</span>
+<span id="cb10-53"><a href="#cb10-53" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"Frequency"</span>)</span>
+<span id="cb10-54"><a href="#cb10-54" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
+<span id="cb10-55"><a href="#cb10-55" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb10-56"><a href="#cb10-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-57"><a href="#cb10-57" aria-hidden="true" tabindex="-1"></a><span class="co"># Print summary</span></span>
+<span id="cb10-58"><a href="#cb10-58" aria-hidden="true" tabindex="-1"></a>observed_avg_distance, np.mean(simulated_avg_distances), np.std(simulated_avg_distances)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div class="">
+<figure class="figure">
+<p class=""><a href="bella.get_data_files/figure-html/cell-9-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="bella.get_data_files/figure-html/cell-9-output-1.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+</div>
+</div></div>
+<div id="cell-12" class="cell markdown">
+<section id="kde-kernel-density-estimation-plot" class="level2">
+<h2 class="anchored" data-anchor-id="kde-kernel-density-estimation-plot">KDE (Kernel Density Estimation) plot</h2>
+</section>
+</div>
+<div class="cell-container"><div class="cell-decorator"><pre>In [28]:</pre></div><div id="cell-13" class="cell" data-execution_count="28">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot distances between Sweetgreen and Chipotle</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">6</span>))</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>sns.kdeplot(simulated_avg_distances, color<span class="op">=</span><span class="st">"blue"</span>, label<span class="op">=</span><span class="st">"Simulated Avg Distances"</span>)</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>plt.axvline(observed_avg_distance, color<span class="op">=</span><span class="st">"red"</span>, linestyle<span class="op">=</span><span class="st">"--"</span>, linewidth<span class="op">=</span><span class="dv">2</span>, label<span class="op">=</span><span class="st">"Observed Avg Distance"</span>)</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Monte Carlo Simulation: Sweetgreen-Chipotle Proximity"</span>)</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"Average Distance"</span>)</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"Density"</span>)</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Interpretation:</span></span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> observed_avg_distance <span class="op">&lt;</span> np.mean(simulated_avg_distances):</span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"The observed average distance is shorter than simulated distances. This suggests they are spatial corralated."</span>)</span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"The observed average distance is not significantly shorter. This suggests they are not spatial corralated."</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div class="">
+<figure class="figure">
+<p class=""><a href="bella.get_data_files/figure-html/cell-10-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img src="bella.get_data_files/figure-html/cell-10-output-1.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>The observed average distance is shorter than simulated distances. This suggests they are spatial corralated.</code></pre>
+</div>
+</div></div>
+<div id="cell-14" class="cell markdown">
+<section id="steps-to-run-a-one-sample-t-test" class="level1">
+<h1>Steps to Run a One-Sample T-Test</h1>
+</section>
+<section id="hypothesis-1" class="level1">
+<h1>Hypothesis:</h1>
+<p><span class="math inline">\(\mathcal{H}_0\)</span>: Sweetgreen and Chipotle locations are randomly distributed with no spatial correlation.</p>
+<p><span class="math inline">\(\mathcal{H}_A\)</span>: Sweetgreen and Chipotle locations are spatially correlated (either clustering together (proximity) or repelling each other (competition).</p>
+</section>
+</div>
+<div class="cell-container"><div class="cell-decorator"><pre>In [31]:</pre></div><div id="cell-15" class="cell" data-execution_count="31">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.stats <span class="im">import</span> ttest_1samp</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="co"># # Example Data</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="co"># print(simulated_avg_distances)</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="co"># print(observed_avg_distance)</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Perform a one-sample t-test</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>t_stat, p_value <span class="op">=</span> ttest_1samp(simulated_avg_distances, observed_avg_distance)</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Print results</span></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"T-statistic: </span><span class="sc">{</span>t_stat<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"P-value: </span><span class="sc">{</span>p_value<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Interpretation</span></span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>alpha <span class="op">=</span> <span class="fl">0.05</span>  <span class="co"># Significance level</span></span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> p_value <span class="op">&lt;</span> alpha:</span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"The observed average distance is significantly different from the simulated distances (reject H₀)."</span>)</span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"The observed average distance is not significantly different from the simulated distances (fail to reject H₀)."</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>T-statistic: 16.496395185272537
+P-value: 2.9858534129495075e-54
+The observed average distance is significantly different from the simulated distances (reject H₀).</code></pre>
+</div>
+</div></div>
+<div id="cell-16" class="cell markdown">
+<section id="if-the-locations-of-sweetgreen-and-chipotle-are-spatially-correlated-are-sweetgreen-and-chipotle-locations-clustered-together-like-in-the-hotelling-model-or-are-they-evenly-spaced-across-a-city-or-region-like-in-the-salop-model" class="level1">
+<h1>if the locations of Sweetgreen and Chipotle are spatially correlated, Are Sweetgreen and Chipotle locations clustered together (like in the Hotelling model)? Or are they evenly spaced across a city or region (like in the Salop model)?</h1>
+</section>
+</div>
+<div id="cell-17" class="cell markdown">
+<ol type="1">
+<li>Hotelling Model (Linear City Model) Concept: Firms compete for customers along a single line (like a street, highway, or product spectrum). Customers are evenly distributed along the line and face “transportation costs” (effort, time, or money) to reach the firms.</li>
+</ol>
+<p>Firms tend to move closer together toward the center of the line (“minimum differentiation”) to capture the largest customer base. This “clustering” happens because if one firm moves away, it loses customers to its competitor. Application to Sweetgreen vs.&nbsp;Chipotle: We can use the Hotelling model to analyze whether these two chains are colocated (clustered) to maximize competition or spread out to dominate separate areas. The average distances between Sweetgreen and Chipotle locations serve as a proxy for their competitive strategy.</p>
+</div>
+<div id="cell-18" class="cell markdown">
+<ol start="2" type="1">
+<li>Salop Model (Circular City Model) Concept: Extends the Hotelling model to a circular city (like a city with multiple neighborhoodsor a ring road). The circular model is useful when more than two competitors exist, and it prevents boundary effects (e.g., firms clustering at the ends of a line).</li>
+</ol>
+<p>Goal: Firms aim to maximize market share by minimizing transportation costs for customers, similar to the Hotelling model, but in a circular (2D) representation.</p>
+<p>Customers are evenly distributed around a circle. Multiple firms (e.g., Sweetgreen, Chipotle, Panera Bread) compete. Customers pick the closest firm, incurring the lowest transportation cost. Implications: Firms tend to space themselves equally around the circle to avoid direct competition and capture their segment of the market. This leads to “maximum differentiation,” where firms spread out rather than cluster together.</p>
+</div>
+<div id="cell-19" class="cell markdown">
+<p>Salop’s Model assumes businesses (like Sweetgreen and Chipotle) are evenly distributed on a circular market, leading to relatively equidistant placements. A low standard deviation in the closest distances ( min_distances min_distances) would be consistent with this model, as it reflects uniform proximity to competitors.</p>
+</div>
+<div class="cell-container"><div class="cell-decorator"><pre>In [22]:</pre></div><div id="cell-20" class="cell" data-execution_count="22">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute pairwise distances between Sweetgreen and Chipotle</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>pairwise_distances <span class="op">=</span> distance.cdist(sweetgreen_coords, chipotle_coords)</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Analyze distance distribution</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>min_distances <span class="op">=</span> pairwise_distances.<span class="bu">min</span>(axis<span class="op">=</span><span class="dv">1</span>)  <span class="co"># Closest Chipotle for each Sweetgreen</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>std_dev_distances <span class="op">=</span> min_distances.std()         <span class="co"># Spread of distances</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Standard Deviation of Min Distances: </span><span class="sc">{</span>std_dev_distances<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Interpretation:</span></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> std_dev_distances <span class="op">&lt;</span> <span class="fl">0.1</span> <span class="op">*</span> min_distances.mean():  <span class="co"># Threshold relative to mean distance</span></span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Low standard deviation in distances suggests equidistant spread, consistent with Salop's Model."</span>)</span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"High standard deviation in distances suggests clustering or irregular spacing, not consistent with Salop's Model."</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Standard Deviation of Min Distances: 0.0183
+High standard deviation in distances suggests clustering or irregular spacing, not consistent with Salop's Model.</code></pre>
+</div>
+</div></div>
+<div id="cell-21" class="cell markdown">
+<ul>
+<li>Hotelling Model: Analyze Minimum Distances</li>
+</ul>
+<p>We compute the average minimum distance from each Sweetgreen to the nearest Chipotle to assess clustering.</p>
+</div>
+<div class="cell-container"><div class="cell-decorator"><pre>In [32]:</pre></div><div id="cell-22" class="cell" data-executetime="{&quot;end_time&quot;:&quot;2024-12-03T16:05:03.389765Z&quot;,&quot;start_time&quot;:&quot;2024-12-03T16:05:02.905374Z&quot;}" data-execution_count="32">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.spatial <span class="im">import</span> distance_matrix</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate pairwise distances between Sweetgreen and Chipotle locations</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>distances <span class="op">=</span> distance_matrix(</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>    sweetgreen_gdf.geometry.<span class="bu">apply</span>(<span class="kw">lambda</span> geom: (geom.x, geom.y)).tolist(),</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>    chipotle_gdf.geometry.<span class="bu">apply</span>(<span class="kw">lambda</span> geom: (geom.x, geom.y)).tolist()</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Find the minimum distance from each Sweetgreen to a Chipotle</span></span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>min_distances <span class="op">=</span> distances.<span class="bu">min</span>(axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>avg_distance <span class="op">=</span> min_distances.mean()</span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Average minimum distance between Sweetgreen and Chipotle: </span><span class="sc">{</span>avg_distance<span class="sc">:.2f}</span><span class="ss"> miles"</span>)</span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot histogram of distances</span></span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a>plt.hist(min_distances, bins<span class="op">=</span><span class="dv">10</span>, color<span class="op">=</span><span class="st">'green'</span>, alpha<span class="op">=</span><span class="fl">0.7</span>)</span>
+<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Minimum Distances from Sweetgreen to Chipotle"</span>)</span>
+<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"Distance (miles)"</span>)</span>
+<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"Frequency"</span>)</span>
+<span id="cb17-21"><a href="#cb17-21" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Average minimum distance between Sweetgreen and Chipotle: 0.01 miles</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div class="">
+<figure class="figure">
+<p class=""><a href="bella.get_data_files/figure-html/cell-13-output-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3"><img src="bella.get_data_files/figure-html/cell-13-output-2.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+</div>
+</div></div>
+<div id="cell-23" class="cell markdown">
+<p>Use minimum distances between Sweetgreen and Chipotle to assess clustering or separation.</p>
+<p>A smaller average distance indicates clustering (competitive strategy).</p>
+</div>
+<div id="cell-24" class="cell markdown">
+<ul>
+<li>Salop Model: Voronoi Diagram for Market Coverage</li>
+</ul>
+<p>We compute the Voronoi diagram to visualize how Sweetgreen and Chipotle locations partition space and analyze their spatial distribution.</p>
+</div>
+<div class="cell-container"><div class="cell-decorator"><pre>In [24]:</pre></div><div id="cell-25" class="cell" data-execution_count="24">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.spatial <span class="im">import</span> Voronoi, voronoi_plot_2d</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Combine Sweetgreen and Chipotle coordinates</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>combined_coords <span class="op">=</span> np.vstack((</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>    sweetgreen_gdf.geometry.<span class="bu">apply</span>(<span class="kw">lambda</span> geom: (geom.x, geom.y)).tolist(),</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>    chipotle_gdf.geometry.<span class="bu">apply</span>(<span class="kw">lambda</span> geom: (geom.x, geom.y)).tolist()</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>))</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute Voronoi diagram</span></span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>vor <span class="op">=</span> Voronoi(combined_coords)</span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot Voronoi diagram</span></span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">8</span>))</span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>voronoi_plot_2d(vor, ax<span class="op">=</span>ax, show_vertices<span class="op">=</span><span class="va">False</span>, line_colors<span class="op">=</span><span class="st">'gray'</span>)</span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a>sweetgreen_gdf.plot(ax<span class="op">=</span>ax, color<span class="op">=</span><span class="st">'green'</span>, label<span class="op">=</span><span class="st">'Sweetgreen'</span>, markersize<span class="op">=</span><span class="dv">50</span>)</span>
+<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a>chipotle_gdf.plot(ax<span class="op">=</span>ax, color<span class="op">=</span><span class="st">'orange'</span>, label<span class="op">=</span><span class="st">'Chipotle'</span>, markersize<span class="op">=</span><span class="dv">50</span>)</span>
+<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
+<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Voronoi Diagram for Sweetgreen and Chipotle Locations"</span>)</span>
+<span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div class="">
+<figure class="figure">
+<p class=""><a href="bella.get_data_files/figure-html/cell-14-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4"><img src="bella.get_data_files/figure-html/cell-14-output-1.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+</div>
+</div></div>
+<div id="cell-26" class="cell markdown">
+<p>Use Voronoi diagrams to assess market partitioning and spatial competition.</p>
+<p>Equal partitioning suggests maximum differentiation, while overlap indicates clustering.</p>
+</div>
+     </main>
+<!-- /main column -->  <script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>  </div> <!-- /content -->  <script>var lightboxQuarto = GLightbox({"openEffect":"zoom","selector":".lightbox","loop":false,"descPosition":"bottom","closeEffect":"zoom"});
+window.onload = () => {
+  lightboxQuarto.on('slide_before_load', (data) => {
+    const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+    const href = trigger.getAttribute('href');
+    if (href !== null) {
+      const imgEl = window.document.querySelector(`a[href="${href}"] img`);
+      if (imgEl !== null) {
+        const srcAttr = imgEl.getAttribute("src");
+        if (srcAttr && srcAttr.startsWith("data:")) {
+          slideConfig.href = srcAttr;
+        }
+      }
+    } 
+  });
+
+  lightboxQuarto.on('slide_after_load', (data) => {
+    const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+    if (window.Quarto?.typesetMath) {
+      window.Quarto.typesetMath(slideNode);
+    }
+  });
+
+};
+          </script> 
+  
+</body></html>

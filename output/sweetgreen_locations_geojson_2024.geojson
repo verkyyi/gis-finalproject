@@ -1,0 +1,25 @@
+{
+"type": "FeatureCollection",
+"name": "sweetgreen_locations_geojson_2024",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+"features": [
+{ "type": "Feature", "properties": { "name": "sweetgreen", "address": "221 Pennsylvania Ave. SE, Washington, DC 20003, United States", "latitude": 38.8870647, "longitude": -77.0026924 }, "geometry": { "type": "Point", "coordinates": [ -77.0026924, 38.8870647 ] } },
+{ "type": "Feature", "properties": { "name": "sweetgreen", "address": "2200 Crystal Dr Ste E, Arlington, VA 22202, United States", "latitude": 38.8543928, "longitude": -77.049751 }, "geometry": { "type": "Point", "coordinates": [ -77.049751, 38.8543928 ] } },
+{ "type": "Feature", "properties": { "name": "sweetgreen", "address": "575 12th Rd S Ste B2, Arlington, VA 22202, United States", "latitude": 38.862587, "longitude": -77.0563699 }, "geometry": { "type": "Point", "coordinates": [ -77.0563699, 38.862587 ] } },
+{ "type": "Feature", "properties": { "name": "sweetgreen", "address": "888 17th St NW Ste 104, Washington, DC 20006, United States", "latitude": 38.9011795, "longitude": -77.0400105 }, "geometry": { "type": "Point", "coordinates": [ -77.0400105, 38.9011795 ] } },
+{ "type": "Feature", "properties": { "name": "sweetgreen", "address": "624 E St NW, Washington, DC 20004, United States", "latitude": 38.8960213, "longitude": -77.0213797 }, "geometry": { "type": "Point", "coordinates": [ -77.0213797, 38.8960213 ] } },
+{ "type": "Feature", "properties": { "name": "sweetgreen", "address": "2238 M St NW, Washington, DC 20037, United States", "latitude": 38.905112, "longitude": -77.0493497 }, "geometry": { "type": "Point", "coordinates": [ -77.0493497, 38.905112 ] } },
+{ "type": "Feature", "properties": { "name": "sweetgreen", "address": "1212 4th St SE, Washington, DC 20003, United States", "latitude": 38.8751397, "longitude": -77.0003666 }, "geometry": { "type": "Point", "coordinates": [ -77.0003666, 38.8751397 ] } },
+{ "type": "Feature", "properties": { "name": "sweetgreen", "address": "1044 Wisconsin Ave NW, Washington, DC 20007, United States", "latitude": 38.9037977, "longitude": -77.0629302 }, "geometry": { "type": "Point", "coordinates": [ -77.0629302, 38.9037977 ] } },
+{ "type": "Feature", "properties": { "name": "sweetgreen", "address": "1461 P St NW, Washington, DC 20005, United States", "latitude": 38.9098374, "longitude": -77.0339645 }, "geometry": { "type": "Point", "coordinates": [ -77.0339645, 38.9098374 ] } },
+{ "type": "Feature", "properties": { "name": "sweetgreen", "address": "2221 I St NW, Washington, DC 20037, United States", "latitude": 38.9009086, "longitude": -77.0496211 }, "geometry": { "type": "Point", "coordinates": [ -77.0496211, 38.9009086 ] } },
+{ "type": "Feature", "properties": { "name": "sweetgreen", "address": "601 Massachusetts Ave NW Suite 110, Washington, DC 20001, United States", "latitude": 38.9017462, "longitude": -77.0200861 }, "geometry": { "type": "Point", "coordinates": [ -77.0200861, 38.9017462 ] } },
+{ "type": "Feature", "properties": { "name": "sweetgreen", "address": "1512 Connecticut Ave NW, Washington, DC 20036, United States", "latitude": 38.9104708, "longitude": -77.0441824 }, "geometry": { "type": "Point", "coordinates": [ -77.0441824, 38.9104708 ] } },
+{ "type": "Feature", "properties": { "name": "sweetgreen", "address": "1325 W St NW, Washington, DC 20009, United States", "latitude": 38.9193652, "longitude": -77.0312564 }, "geometry": { "type": "Point", "coordinates": [ -77.0312564, 38.9193652 ] } },
+{ "type": "Feature", "properties": { "name": "sweetgreen", "address": "1800 N Lynn St, Arlington, VA 22209, United States", "latitude": 38.8963197, "longitude": -77.0710847 }, "geometry": { "type": "Point", "coordinates": [ -77.0710847, 38.8963197 ] } },
+{ "type": "Feature", "properties": { "name": "sweetgreen", "address": "823 King St, Alexandria, VA 22314, United States", "latitude": 38.8055476, "longitude": -77.0489815 }, "geometry": { "type": "Point", "coordinates": [ -77.0489815, 38.8055476 ] } },
+{ "type": "Feature", "properties": { "name": "sweetgreen", "address": "1304 4th St NE, Washington, DC 20002, United States", "latitude": 38.9094363, "longitude": -76.9992036 }, "geometry": { "type": "Point", "coordinates": [ -76.9992036, 38.9094363 ] } },
+{ "type": "Feature", "properties": { "name": "sweetgreen", "address": "3100 Clarendon Blvd, Arlington, VA 22201, United States", "latitude": 38.8865318, "longitude": -77.0953846 }, "geometry": { "type": "Point", "coordinates": [ -77.0953846, 38.8865318 ] } },
+{ "type": "Feature", "properties": { "name": "sweetgreen", "address": "8517 Georgia Ave, Silver Spring, MD 20910, United States", "latitude": 38.9951025, "longitude": -77.0268381 }, "geometry": { "type": "Point", "coordinates": [ -77.0268381, 38.9951025 ] } }
+]
+}

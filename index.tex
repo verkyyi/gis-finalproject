@@ -1,0 +1,314 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\PassOptionsToPackage{dvipsnames,svgnames,x11names}{xcolor}
+%
+\documentclass[
+  letterpaper,
+  DIV=11,
+  numbers=noendperiod]{scrartcl}
+
+\usepackage{amsmath,amssymb}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else  
+    % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+% Make \paragraph and \subparagraph free-standing
+\ifx\paragraph\undefined\else
+  \let\oldparagraph\paragraph
+  \renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+  \let\oldsubparagraph\subparagraph
+  \renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+
+
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+% definitions for citeproc citations
+\NewDocumentCommand\citeproctext{}{}
+\NewDocumentCommand\citeproc{mm}{%
+  \begingroup\def\citeproctext{#2}\cite{#1}\endgroup}
+\makeatletter
+ % allow citations to break across lines
+ \let\@cite@ofmt\@firstofone
+ % avoid brackets around text for \cite:
+ \def\@biblabel#1{}
+ \def\@cite#1#2{{#1\if@tempswa , #2\fi}}
+\makeatother
+\newlength{\cslhangindent}
+\setlength{\cslhangindent}{1.5em}
+\newlength{\csllabelwidth}
+\setlength{\csllabelwidth}{3em}
+\newenvironment{CSLReferences}[2] % #1 hanging-indent, #2 entry-spacing
+ {\begin{list}{}{%
+  \setlength{\itemindent}{0pt}
+  \setlength{\leftmargin}{0pt}
+  \setlength{\parsep}{0pt}
+  % turn on hanging indent if param 1 is 1
+  \ifodd #1
+   \setlength{\leftmargin}{\cslhangindent}
+   \setlength{\itemindent}{-1\cslhangindent}
+  \fi
+  % set entry spacing
+  \setlength{\itemsep}{#2\baselineskip}}}
+ {\end{list}}
+\usepackage{calc}
+\newcommand{\CSLBlock}[1]{\hfill\break\parbox[t]{\linewidth}{\strut\ignorespaces#1\strut}}
+\newcommand{\CSLLeftMargin}[1]{\parbox[t]{\csllabelwidth}{\strut#1\strut}}
+\newcommand{\CSLRightInline}[1]{\parbox[t]{\linewidth - \csllabelwidth}{\strut#1\strut}}
+\newcommand{\CSLIndent}[1]{\hspace{\cslhangindent}#1}
+
+\KOMAoption{captions}{tableheading}
+\makeatletter
+\@ifpackageloaded{caption}{}{\usepackage{caption}}
+\AtBeginDocument{%
+\ifdefined\contentsname
+  \renewcommand*\contentsname{Table of contents}
+\else
+  \newcommand\contentsname{Table of contents}
+\fi
+\ifdefined\listfigurename
+  \renewcommand*\listfigurename{List of Figures}
+\else
+  \newcommand\listfigurename{List of Figures}
+\fi
+\ifdefined\listtablename
+  \renewcommand*\listtablename{List of Tables}
+\else
+  \newcommand\listtablename{List of Tables}
+\fi
+\ifdefined\figurename
+  \renewcommand*\figurename{Figure}
+\else
+  \newcommand\figurename{Figure}
+\fi
+\ifdefined\tablename
+  \renewcommand*\tablename{Table}
+\else
+  \newcommand\tablename{Table}
+\fi
+}
+\@ifpackageloaded{float}{}{\usepackage{float}}
+\floatstyle{ruled}
+\@ifundefined{c@chapter}{\newfloat{codelisting}{h}{lop}}{\newfloat{codelisting}{h}{lop}[chapter]}
+\floatname{codelisting}{Listing}
+\newcommand*\listoflistings{\listof{codelisting}{List of Listings}}
+\makeatother
+\makeatletter
+\makeatother
+\makeatletter
+\@ifpackageloaded{caption}{}{\usepackage{caption}}
+\@ifpackageloaded{subcaption}{}{\usepackage{subcaption}}
+\makeatother
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\usepackage{bookmark}
+
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same} % disable monospaced font for URLs
+\hypersetup{
+  pdftitle={Coup-Proofing via Capital Relocation},
+  colorlinks=true,
+  linkcolor={blue},
+  filecolor={Maroon},
+  citecolor={Blue},
+  urlcolor={Blue},
+  pdfcreator={LaTeX via pandoc}}
+
+\title{Coup-Proofing via Capital Relocation}
+\usepackage{etoolbox}
+\makeatletter
+\providecommand{\subtitle}[1]{% add subtitle to \maketitle
+  \apptocmd{\@title}{\par {\large #1 \par}}{}{}
+}
+\makeatother
+\subtitle{DSAN 6750 / PPOL 6805: GIS for Spatial Data Science}
+\author{Lianghui Yi}
+\date{}
+
+\begin{document}
+\maketitle
+
+\subsection{Introduction}\label{introduction}
+
+\begin{itemize}
+\tightlist
+\item
+  \href{code/bella.get_data-preview.html}{Notebook 1}
+\end{itemize}
+
+Several previous studies have found robust relationships between spatial
+properties of a country's \textbf{capital city} and that country's
+propensity for \textbf{conflict} and \textbf{misgovernance}.
+
+Perceptions of this linkage also have an effect on ``coup-proofing''
+decisions made by national governments. A recent BBC interview with
+Equatorial Guinea's President Teodoro Obiang, for example, highlighted
+this as a factor behind his decision to relocate the capital city:
+
+\begin{quote}
+It's the remoteness of Oyala that makes it so appealing to President
+Obiang. In a rare interview he described how rebels had recently plotted
+a seaborne assault on his palace in the current capital, Malabo. `We
+need a secure place for my government and for future governments. That's
+why we have created Oyala, to guarantee the government of Equatorial
+Guinea.' (\citeproc{ref-sackur_equatorial_2012}{Sackur 2012})
+\end{quote}
+
+This case is far from exceptional, as an even more recent
+\emph{Washington Post} article points out with respect to Myanmar's
+decision to move its capital from Yangon to Naypyidaw:
+
+\begin{quote}
+Analysts have described the decision as motivated by a desire to secure
+the military's seat of power from any threat of protests or invasions.
+(\citeproc{ref-berger_myanmars_2021}{Berger 2021})
+\end{quote}
+
+Most of these studies, however, are based on observations of
+\textbf{conflict events}. In this study, we study the more fundamental
+variable of a capital's distance from the \textbf{population centroid}
+of the country.
+
+\subsection{Literature Review}\label{literature-review}
+
+Campante, Do, and Guimaraes (\citeproc{ref-campante_capital_2019}{2019})
+analyzes the relationship between the location of a \textbf{capital
+city} and the degree of conflict and misgovernance in a given country.
+Their two key findings are that:
+
+\begin{quote}
+Conflict is more likely to emerge (and dislodge incumbents) closer to
+the capital
+\end{quote}
+
+and
+
+\begin{quote}
+Isolated capitals are associated with misgovernance.
+\end{quote}
+
+This first finding is illustrated in Figure~\ref{fig-conflict-dist}
+
+\begin{figure}
+
+\centering{
+
+\captionsetup{labelsep=none}\includegraphics{index_files/mediabag/images/conflict_dist.pdf}
+
+}
+
+\caption{\label{fig-conflict-dist}}
+
+\end{figure}%
+
+\subsection{Methodology}\label{methodology}
+
+The \textbf{population centroids} we use herein might require some
+explanation, since the term ``centroid'' can be ambiguous.
+
+Here, the population centroids are drawn from Hall et al.
+(\citeproc{ref-hall_population_2019}{2019})
+
+\subsection{Exploratory Data Analysis
+(EDA)}\label{exploratory-data-analysis-eda}
+
+Here we plot the base GIS objects we're analyzing: the location of each
+\textbf{capital city} (in purple) and each \textbf{population centroid}
+(in yellow).
+
+\textsubscript{Source:
+\href{https://bella20000605.github.io/gis_final_project/index.qmd.html}{Article
+Notebook}}
+
+\subsection{Discussion}\label{discussion}
+
+\subsection{Conclusion}\label{conclusion}
+
+Our evidence indicates that the spatial dynamics of \textbf{conflict}
+differ from the spatial dynamics of \textbf{misgovernance}. Whereas
+
+\phantomsection\label{refs}
+\begin{CSLReferences}{1}{0}
+\bibitem[\citeproctext]{ref-berger_myanmars_2021}
+Berger, Miriam. 2021. {``Myanmar's Military Built a New Capital as a
+Haven for Power. {Other} Countries Have Tried That, Too.''}
+\emph{Washington Post}, February.
+\url{https://www.washingtonpost.com/world/2021/02/06/myanmars-military-built-new-capital-haven-power-other-countries-have-tried-that-too/}.
+
+\bibitem[\citeproctext]{ref-campante_capital_2019}
+Campante, Filipe R., Quoc-Anh Do, and Bernardo Guimaraes. 2019.
+{``Capital {Cities}, {Conflict}, and {Misgovernance}.''} \emph{American
+Economic Journal: Applied Economics} 11 (3): 298--337.
+\url{https://doi.org/10.1257/app.20170111}.
+
+\bibitem[\citeproctext]{ref-hall_population_2019}
+Hall, Ola, Maria Francisca Archila Bustos, Niklas Boke Olén, and Thomas
+Niedomysl. 2019. {``Population Centroids of the World Administrative
+Units from Nighttime Lights 1992-2013.''} \emph{Scientific Data} 6 (1):
+235. \url{https://doi.org/10.1038/s41597-019-0250-z}.
+
+\bibitem[\citeproctext]{ref-sackur_equatorial_2012}
+Sackur, Stephen. 2012. {``Equatorial {Guinea}: {Obiang}'s Future
+Capital, {Oyala}.''} \emph{BBC News}, December.
+\url{https://www.bbc.com/news/magazine-20731448}.
+
+\end{CSLReferences}
+
+
+
+\end{document}

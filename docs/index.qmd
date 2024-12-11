@@ -1,109 +1,589 @@
 ---
-title: "Coup-Proofing via Capital Relocation"
+title: "Spatial Dynamics of Sweetgreen and Chipotle Locations: Proximity or Competition?"
 subtitle: "DSAN 6750 / PPOL 6805: GIS for Spatial Data Science"
 authors:
-  - name: Jeff Jacobs
-    email: jj1088@georgetown.edu
+  - name: Bella Shi
+    email: js5081@georgetown.edu
     affiliation: Georgetown University
-    corresponding: true
+    corresponding: true  
+  - name: Jacky Zhang
+    email: jz922@georgetown.edu
+    affiliation: Georgetown University
+    corresponding: true  
+  - name: Lianghui Yi
+    email: ly297@georgetown.edu
+    affiliation: Georgetown University
+    corresponding: true    
 df-print: kable
 bibliography: GIS_Manuscript.bib
 title-block-banner: "#E69F0095"
 title-block-banner-color: "black"
+code-fold: true
 format:
   html:
     df-print: kable
   pdf:
     # https://quarto.org/docs/reference/formats/pdf.html
-    link-citations: true
+    link-citations: true 
 prefer-html: true
 ---
 
 ## Introduction
 
-Several previous studies have found robust relationships between spatial properties of a country's **capital city** and that country's propensity for **conflict** and **misgovernance**.
+This project investigates whether the spatial distributions of Sweetgreen and Chipotle locations in the United States are correlated. We test if the chains cluster together (suggesting direct competition) or show patterns of spatial repulsion. Our hypothesis is:
 
-Perceptions of this linkage also have an effect on "coup-proofing" decisions made by national governments. A recent BBC interview with Equatorial Guinea's President Teodoro Obiang, for example, highlighted this as a factor behind his decision to relocate the capital city:
+- $\mathcal{H}_0$: Sweetgreen and Chipotle locations are randomly distributed with no spatial correlation.
 
-> It's the remoteness of Oyala that makes it so appealing to President Obiang. In a rare interview he described how rebels had recently plotted a seaborne assault on his palace in the current capital, Malabo. 'We need a secure place for my government and for future governments. That's why we have created Oyala, to guarantee the government of Equatorial Guinea.' [@sackur_equatorial_2012]
 
-This case is far from exceptional, as an even more recent *Washington Post* article points out with respect to Myanmar's decision to move its capital from Yangon to Naypyidaw:
+- $\mathcal{H}_A$: Sweetgreen and Chipotle locations are spatially correlated (either clustering or repelling).
 
-> Analysts have described the decision as motivated by a desire to secure the military’s seat of power from any threat of protests or invasions. [@berger_myanmars_2021]
-
-Most of these studies, however, are based on observations of **conflict events**. In this study, we study the more fundamental variable of a capital's distance from the **population centroid** of the country.
-
-## Literature Review
-
-@campante_capital_2019 analyzes the relationship between the location of a **capital city** and the degree of conflict and misgovernance in a given country. Their two key findings are that:
-
-> Conflict is more likely to emerge (and dislodge incumbents) closer to the capital
-
-and
-
-> Isolated capitals are associated with misgovernance.
-
-This first finding is illustrated in @fig-conflict-dist
-
-![](images/conflict_dist.svg){#fig-conflict-dist}
 
 ## Methodology
 
-The **population centroids** we use herein might require some explanation, since the term "centroid" can be ambiguous.
+We employ spatial analysis tools and a Monte Carlo simulation to assess spatial correlation. Using a spatial lag model and randomization tests, we compare observed distances between Sweetgreen and Chipotle locations with a distribution of distances under randomized placement of Chipotle locations.
 
-Here, the population centroids are drawn from @hall_population_2019
+Key Steps:
+
+	1.	Data Collection & Geocoding: Using the Google Places API to gather restaurant coordinates.
+	2.	Exploratory Data Analysis: Mapping and visualizing the distributions.
+	3.	Monte Carlo Simulation: Testing whether observed proximity differs from random expectations.
+	4.	Statistical Tests: Conducting a one-sample t-test on the simulated distribution to determine significance.
+
+
+## Collecting Data
+
+Below is an example snippet showing how we used the Google Places API to collect locations. We save outputs in GeoJSON, GeoPackage, and Shapefile formats. (Actual API keys and code omitted for brevity.)
+
+
+```{python}
+#| label: data_collection
+
+# Access the API key
+# api_key = config.API_KEY.strip("'")
+
+import os
+import requests
+import geopandas as gpd
+from shapely.geometry import Point
+
+
+def get_places(api_key, query, location=None, radius=None, max_results=100):
+    """
+    Fetch places from Google Maps API based on a query, handling pagination.
+    
+    Parameters:
+        api_key (str): Google Maps API key.
+        query (str): Text search query (e.g., 'Sweetgreen in Washington DC').
+        location (str): Latitude,longitude string for search center.
+        radius (int): Search radius in meters.
+        max_results (int): Maximum number of results to fetch.
+        
+    Returns:
+        list: List of places returned by the API.
+    """
+    base_url = 'https://maps.googleapis.com/maps/api/place/textsearch/json'
+    params = {
+        'query': query,
+        'key': api_key,
+        'location': location,
+        'radius': radius,
+    }
+    all_places = []
+    next_page_token = None
+
+    while len(all_places) < max_results:
+        if next_page_token:
+            params['pagetoken'] = next_page_token
+        
+        try:
+            response = requests.get(base_url, params=params)
+            response.raise_for_status()
+            data = response.json()
+
+            if 'results' in data:
+                all_places.extend(data['results'])
+
+            next_page_token = data.get('next_page_token')
+            if not next_page_token:
+                break  # No more pages available
+        except requests.exceptions.RequestException as e:
+            print(f"Error fetching places: {e}")
+            break
+    
+    return all_places[:max_results]
+
+
+def save_places_to_formats(places, output_prefix="places", file_suffix=""):
+    """
+    Save places to GeoJSON, GeoPackage, and Shapefile formats with customizable file names.
+    
+    Parameters:
+        places (list): List of place dictionaries from the Google Places API.
+        output_prefix (str): Prefix for the output files (e.g., directory or base name).
+        file_suffix (str): Custom suffix for file names (e.g., "_DC" or "_2024").
+    """
+    if not places:
+        print("No valid places found to save.")
+        return
+
+    # Convert places to a GeoDataFrame
+    data = []
+    for place in places:
+        name = place.get('name', 'N/A')
+        address = place.get('formatted_address', 'N/A')
+        location = place.get('geometry', {}).get('location', {})
+        lat = location.get('lat')
+        lng = location.get('lng')
+        if lat is not None and lng is not None:
+            data.append({
+                'name': name,
+                'address': address,
+                'latitude': lat,
+                'longitude': lng,
+                'geometry': Point(lng, lat)
+            })
+
+    # Create GeoDataFrame
+    gdf = gpd.GeoDataFrame(data, crs="EPSG:4326")
+
+    # Customize file names
+    geojson_path = f"{output_prefix}_geojson{file_suffix}.geojson"
+    geopackage_path = f"{output_prefix}_geopackage{file_suffix}.gpkg"
+    shapefile_path = f"{output_prefix}_shapefile{file_suffix}.shp"
+
+    # Ensure output directories exist
+    os.makedirs(os.path.dirname(output_prefix), exist_ok=True)
+
+    # Save files with error handling
+    file_formats = [
+        (geojson_path, "GeoJSON", "GeoJSON"),
+        (geopackage_path, "GPKG", "GeoPackage"),
+        (shapefile_path, "ESRI Shapefile", "Shapefile"),
+    ]
+
+    for path, driver, label in file_formats:
+        try:
+            if driver == "GPKG":
+                gdf.to_file(path, layer="places", driver=driver)
+            else:
+                gdf.to_file(path, driver=driver)
+            print(f"Saved {label} to {path}")
+        except Exception as e:
+            print(f"Error saving {label}: {e}")
+
+
+
+# Example usage
+if __name__ == "__main__":
+    query = 'Sweetgreen in Washington DC'
+    output_prefix = "output/sweetgreen_locations"
+    file_suffix = "_2024"
+    api_key = "AIzaSyCcd3-C2h-GutmGdeo2B2vVtDFwVVd3-EU"
+
+
+    # Fetch places
+    places = get_places(api_key, query, max_results=200)
+    print(f"Fetched {len(places)} places.")
+
+    # Save results
+    save_places_to_formats(places, output_prefix, file_suffix)
+```
+
+
+```{python}
+if __name__ == "__main__":
+    query = 'chipotle in Washington DC'
+    output_prefix = "output/chipotle_locations"
+    file_suffix = "_2024"
+
+    # Fetch places
+    places = get_places(api_key, query, max_results=200)
+    print(f"Fetched {len(places)} places.")
+
+    # Save results
+    save_places_to_formats(places, output_prefix, file_suffix)
+```
+
+## Preprocessing Data
+
+```{python}
+#| label: data_preprocessing
+#| depends_on: data_collection
+from scipy.spatial import distance_matrix
+import numpy as np
+import geopandas as gpd
+import matplotlib.pyplot as plt
+
+# Load data
+chipotle_gdf = gpd.read_file("output/chipotle_locations_geojson_2024.geojson")  # Chipotle locations
+sweetgreen_gdf = gpd.read_file("output/sweetgreen_locations_geojson_2024.geojson")
+
+# Ensure CRS matches
+chipotle_gdf = chipotle_gdf.to_crs(sweetgreen_gdf.crs)
+```
+
 
 ## Exploratory Data Analysis (EDA)
 
-Here we plot the base GIS objects we're analyzing: the location of each **capital city** (in purple) and each **population centroid** (in yellow).
+After collecting data, we geocode and plot the locations. We create intensity maps and heatmaps to visually inspect spatial patterns.
 
-```{r}
-#| label: imports
-library(tidyverse) |> suppressPackageStartupMessages()
-library(sf) |> suppressPackageStartupMessages()
-library(mapview) |> suppressPackageStartupMessages()
-library(units) |> suppressPackageStartupMessages()
-cb_palette <- c("#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")
+### Intensity Map of Sweetgreen and Chipotle Locations
+```{python}
+import requests
+import pandas as pd
+
+def get_places(api_key, query, location=None, radius=5000):
+    """
+    Fetch places from Google Maps API based on a query.
+    """
+    base_url = 'https://maps.googleapis.com/maps/api/place/textsearch/json'
+    params = {
+        'query': query,
+        'key': api_key,
+        'location': location,  # Optional: e.g., '38.9072,-77.0369'
+        'radius': radius  # Search radius in meters
+    }
+
+    all_places = []
+    next_page_token = None
+
+    while True:
+        if next_page_token:
+            params['pagetoken'] = next_page_token
+
+        response = requests.get(base_url, params=params)
+        response.raise_for_status()
+        data = response.json()
+
+        if 'results' in data:
+            all_places.extend(data['results'])
+
+        next_page_token = data.get('next_page_token')
+        if not next_page_token:
+            break  # No more pages to fetch
+
+    # Return relevant fields
+    return [
+        {
+            'name': place['name'],
+            'address': place.get('formatted_address', 'N/A'),
+            'lat': place['geometry']['location']['lat'],
+            'lng': place['geometry']['location']['lng']
+        }
+        for place in all_places
+    ]
+
+# Example API usage
+sweetgreen_places = get_places(api_key, 'Sweetgreen in Washington DC')
+chipotle_places = get_places(api_key, 'Chipotle in Washington DC')
+
+# Convert results to DataFrames
+sweetgreen_df = pd.DataFrame(sweetgreen_places)
+chipotle_df = pd.DataFrame(chipotle_places)
+
+import folium
+
+# Create a base map centered around Washington, D.C.
+map_center = [38.9072, -77.0369]  # Latitude, Longitude
+m = folium.Map(location=map_center, zoom_start=13)
+
+# Add Sweetgreen locations to the map
+for _, row in sweetgreen_df.iterrows():
+    folium.Marker(
+        location=[row['lat'], row['lng']],
+        popup=f"Sweetgreen: {row['name']}<br>{row['address']}",
+        icon=folium.Icon(color='green', icon='leaf')
+    ).add_to(m)
+
+# Add Chipotle locations to the map
+for _, row in chipotle_df.iterrows():
+    folium.Marker(
+        location=[row['lat'], row['lng']],
+        popup=f"Chipotle: {row['name']}<br>{row['address']}",
+        icon=folium.Icon(color='orange', icon='cutlery')
+    ).add_to(m)
+
+# Save and display the map
+m.save("sweetgreen_chipotle_map.html")
+m
 ```
 
-```{r}
-#| label: load-eda
-merged_long_sf <- readRDS("merged_long_sf.rds")
-mapview(merged_long_sf, zcol="name", cex=4, label="geounit")
+### Heatmap of Sweetgreen and Chipotle Locations
+```{python}
+from folium.plugins import HeatMap
+import folium
+
+# Create a base map centered on Washington, D.C.
+map_center = [38.9072, -77.0369]  # Latitude, Longitude
+heatmap = folium.Map(location=map_center, zoom_start=12)
+
+# Prepare data for Sweetgreen heatmap (latitudes and longitudes)
+sweetgreen_heat_data = sweetgreen_df[['lat', 'lng']].values.tolist()
+
+# Add Sweetgreen HeatMap
+HeatMap(sweetgreen_heat_data, radius=15, gradient={0.2: 'blue', 0.5: 'lime', 0.8: 'red'}).add_to(heatmap)
+
+# Prepare data for Chipotle heatmap
+chipotle_heat_data = chipotle_df[['lat', 'lng']].values.tolist()
+
+# Add Chipotle HeatMap
+HeatMap(chipotle_heat_data, radius=15, gradient={0.2: 'purple', 0.5: 'orange', 0.8: 'yellow'}).add_to(heatmap)
+
+
+# Save the heatmap to an HTML file
+heatmap.save("sweetgreen_chipotle_heatmap.html")
+heatmap
 ```
 
-We then construct an **area-normalized** measure of capital-centroid distance $\text{dist}^{\textsf{AN}}$, using the formula
+## Hypothesis
 
-$$
-\text{dist}^{\textsf{AN}}_i = \text{dist}_i / \sqrt{\text{area}_i}.
-$$
+### Hypothesis:
 
-A plot of this measure by country looks as follows:
+$\mathcal{H}_0$: Sweetgreen and Chipotle locations are randomly distributed with no spatial correlation.
 
-```{r}
-#| label: plot-area
-merged_area_sf <- readRDS("merged_area_sf.rds")
-mapview(merged_area_sf, zcol="scaled_dist")
+$\mathcal{H}_A$: SSweetgreen and Chipotle locations are spatially correlated (either clustering together (proximity) or repelling each other (competition)).
+
+
+### Monte Carlo Simulation
+
+To test our hypothesis, we conduct a Monte Carlo simulation. We randomly distribute Sweetgreen and Chipotle locations on a map and calculate the distance between each pair of locations. We then compare the observed distance between Sweetgreen and Chipotle locations to the distribution of distances under the null hypothesis.
+
+Steps:
+
+1. Calculate observed distances between Sweetgreen and Chipotle using the minimum distance to a Chipotle for each Sweetgreen location.
+2. Randomize Chipotle locations within the bounding box (longitude-latitude range of original Chipotle locations).
+3. Repeat this process for the specified number of simulations, storing the average distance for each simulation.
+
+
+```{python}
+import numpy as np
+from scipy.spatial import distance
+import matplotlib.pyplot as plt
+
+# Monte Carlo Simulation to compare average distances between Sweetgreen and Chipotle
+def monte_carlo_simulation(sweetgreen_coords, chipotle_coords, num_simulations=100000):
+    """
+    Perform a Monte Carlo simulation to test the hypothesis:
+    Are the observed distances between Sweetgreen and Chipotle locations
+    significantly different from random placement?
+
+    Args:
+        sweetgreen_coords: Array of Sweetgreen coordinates.
+        chipotle_coords: Array of Chipotle coordinates.
+        num_simulations: Number of Monte Carlo simulations.
+
+    Returns:
+        Observed average distance, distribution of simulated distances.
+    """
+    observed_distances = distance.cdist(sweetgreen_coords, chipotle_coords).min(axis=1)
+    observed_avg_distance = observed_distances.mean()
+
+    # Simulated distances
+    simulated_avg_distances = []
+
+    for _ in range(num_simulations):
+        # Randomize Chipotle locations within the bounding box
+        randomized_chipotle_coords = np.random.uniform(
+            low=[chipotle_coords[:, 0].min(), chipotle_coords[:, 1].min()],
+            high=[chipotle_coords[:, 0].max(), chipotle_coords[:, 1].max()],
+            size=chipotle_coords.shape
+        )
+        simulated_distances = distance.cdist(sweetgreen_coords, randomized_chipotle_coords).min(axis=1)
+        simulated_avg_distances.append(simulated_distances.mean())
+
+    return observed_avg_distance, simulated_avg_distances
+
+# Prepare data
+sweetgreen_coords = np.array(sweetgreen_df[['lng', 'lat']])
+chipotle_coords = np.array(chipotle_df[['lng', 'lat']])
+
+# Run Monte Carlo Simulation
+observed_avg_distance, simulated_avg_distances = monte_carlo_simulation(
+    sweetgreen_coords, chipotle_coords, num_simulations=1000
+)
+
+# Plot the distribution of simulated distances and observed distance
+plt.figure(figsize=(10, 6))
+plt.hist(simulated_avg_distances, bins=30, color='blue', alpha=0.7, label="Simulated Avg Distances")
+plt.axvline(observed_avg_distance, color='red', linestyle='--', linewidth=2, label="Observed Avg Distance")
+plt.title("Monte Carlo Simulation: Sweetgreen-Chipotle Proximity")
+plt.xlabel("Average Distance")
+plt.ylabel("Frequency")
+plt.legend()
+plt.show()
+
+# Print summary
+observed_avg_distance, np.mean(simulated_avg_distances), np.std(simulated_avg_distances)
 ```
 
-## Hypothesis Testing (Regression)
+### KDE Plot of Sweetgreen and Chipotle Locations
 
-```{r}
-#| label: plot-regression
-merged_sub_sf <- readRDS("merged_sub_sf.rds")
-merged_sub_sf |> head()
+```{python}
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+# Plot distances between Sweetgreen and Chipotle
+plt.figure(figsize=(10, 6))
+sns.kdeplot(simulated_avg_distances, color="blue", label="Simulated Avg Distances")
+plt.axvline(observed_avg_distance, color="red", linestyle="--", linewidth=2, label="Observed Avg Distance")
+plt.title("Monte Carlo Simulation: Sweetgreen-Chipotle Proximity")
+plt.xlabel("Average Distance")
+plt.ylabel("Density")
+plt.legend()
+plt.show()
+
+# Interpretation:
+if observed_avg_distance < np.mean(simulated_avg_distances):
+    print("The observed average distance is shorter than simulated distances. This suggests they are spatial corralated.")
+else:
+    print("The observed average distance is not significantly shorter. This suggests they are not spatial corralated.")
 ```
 
-```{r}
-merged_sub_sf |> ggplot(aes(x=scaled_dist, y=total_score, label=NAME_ENGLI)) +
-  geom_point() +
-  geom_smooth(method='lm', formula= y~x) +
-  geom_text(size=4, nudge_y = 0.075) +
-  theme_classic()
+#### One-Sample T-Test
+
+Hypothesis:
+
+$\mathcal{H}_0$: Sweetgreen and Chipotle locations are randomly distributed with no spatial correlation.
+
+$\mathcal{H}_A$: Sweetgreen and Chipotle locations are spatially correlated (either clustering together (proximity) or repelling each other (competition).
+
+```{python}
+import numpy as np
+from scipy.stats import ttest_1samp
+
+# # Example Data
+# print(simulated_avg_distances)
+# print(observed_avg_distance)
+
+# Perform a one-sample t-test
+t_stat, p_value = ttest_1samp(simulated_avg_distances, observed_avg_distance)
+
+# Print results
+print(f"T-statistic: {t_stat}")
+print(f"P-value: {p_value}")
+
+# Interpretation
+alpha = 0.05  # Significance level
+if p_value < alpha:
+    print("The observed average distance is significantly different from the simulated distances (reject H₀).")
+else:
+    print("The observed average distance is not significantly different from the simulated distances (fail to reject H₀).")
+
 ```
 
 ## Discussion
 
+If the locations of Sweetgreen and Chipotle are spatially correlated, Are Sweetgreen and Chipotle locations clustered together (like in the Hotelling model)? Or are they evenly spaced across a city or region (like in the Salop model)?
+
+### 1. Hotelling Model (Linear City Model)
+Concept: Firms compete for customers along a single line (like a street, highway, or product spectrum). Customers are evenly distributed along the line and face "transportation costs" (effort, time, or money) to reach the firms.
+
+Firms tend to move closer together toward the center of the line ("minimum differentiation") to capture the largest customer base.
+This "clustering" happens because if one firm moves away, it loses customers to its competitor.
+Application to Sweetgreen vs. Chipotle:
+We can use the Hotelling model to analyze whether these two chains are colocated (clustered) to maximize competition or spread out to dominate separate areas.
+The average distances between Sweetgreen and Chipotle locations serve as a proxy for their competitive strategy.
+
+
+### 2. Salop Model (Circular City Model)
+
+Concept: Extends the Hotelling model to a circular city (like a city with multiple neighborhoodsor a ring road). The circular model is useful when more than two competitors exist, and it prevents boundary effects (e.g., firms clustering at the ends of a line).
+
+Goal: Firms aim to maximize market share by minimizing transportation costs for customers, similar to the Hotelling model, but in a circular (2D) representation.
+
+Customers are evenly distributed around a circle.
+Multiple firms (e.g., Sweetgreen, Chipotle, Panera Bread) compete.
+Customers pick the closest firm, incurring the lowest transportation cost.
+Implications:
+Firms tend to space themselves equally around the circle to avoid direct competition and capture their segment of the market.
+This leads to "maximum differentiation," where firms spread out rather than cluster together.
+
+Salop’s Model assumes businesses (like Sweetgreen and Chipotle) are evenly distributed on a circular market, leading to relatively equidistant placements.
+A low standard deviation in the closest distances (
+min_distances
+min_distances) would be consistent with this model, as it reflects uniform proximity to competitors.
+
+```{python}
+# Compute pairwise distances between Sweetgreen and Chipotle
+pairwise_distances = distance.cdist(sweetgreen_coords, chipotle_coords)
+
+# Analyze distance distribution
+min_distances = pairwise_distances.min(axis=1)  # Closest Chipotle for each Sweetgreen
+std_dev_distances = min_distances.std()         # Spread of distances
+
+print(f"Standard Deviation of Min Distances: {std_dev_distances:.4f}")
+
+# Interpretation:
+if std_dev_distances < 0.1 * min_distances.mean():  # Threshold relative to mean distance
+    print("Low standard deviation in distances suggests equidistant spread, consistent with Salop's Model.")
+else:
+    print("High standard deviation in distances suggests clustering or irregular spacing, not consistent with Salop's Model.")
+```
+
+
+### 3. Hotelling Model: Analyze Minimum Distances
+
+We compute the average minimum distance from each Sweetgreen to the nearest Chipotle to assess clustering.
+
+```{python}
+from scipy.spatial import distance_matrix
+import matplotlib.pyplot as plt
+
+# Calculate pairwise distances between Sweetgreen and Chipotle locations
+distances = distance_matrix(
+    sweetgreen_gdf.geometry.apply(lambda geom: (geom.x, geom.y)).tolist(),
+    chipotle_gdf.geometry.apply(lambda geom: (geom.x, geom.y)).tolist()
+)
+
+# Find the minimum distance from each Sweetgreen to a Chipotle
+min_distances = distances.min(axis=1)
+avg_distance = min_distances.mean()
+
+print(f"Average minimum distance between Sweetgreen and Chipotle: {avg_distance:.2f} miles")
+
+# Plot histogram of distances
+plt.hist(min_distances, bins=10, color='green', alpha=0.7)
+plt.title("Minimum Distances from Sweetgreen to Chipotle")
+plt.xlabel("Distance (miles)")
+plt.ylabel("Frequency")
+plt.show()
+```
+
+Use minimum distances between Sweetgreen and Chipotle to assess clustering or separation.
+
+A smaller average distance indicates clustering (competitive strategy).
+
+### 4. Salop Model: Voronoi Diagram for Market Coverage
+
+We compute the Voronoi diagram to visualize how Sweetgreen and Chipotle locations partition space and analyze their spatial distribution.
+
+```{python}
+from scipy.spatial import Voronoi, voronoi_plot_2d
+import numpy as np
+
+# Combine Sweetgreen and Chipotle coordinates
+combined_coords = np.vstack((
+    sweetgreen_gdf.geometry.apply(lambda geom: (geom.x, geom.y)).tolist(),
+    chipotle_gdf.geometry.apply(lambda geom: (geom.x, geom.y)).tolist()
+))
+
+# Compute Voronoi diagram
+vor = Voronoi(combined_coords)
+
+# Plot Voronoi diagram
+fig, ax = plt.subplots(figsize=(10, 8))
+voronoi_plot_2d(vor, ax=ax, show_vertices=False, line_colors='gray')
+sweetgreen_gdf.plot(ax=ax, color='green', label='Sweetgreen', markersize=50)
+chipotle_gdf.plot(ax=ax, color='orange', label='Chipotle', markersize=50)
+plt.legend()
+plt.title("Voronoi Diagram for Sweetgreen and Chipotle Locations")
+plt.show()
+```
+
+
+Use Voronoi diagrams to assess market partitioning and spatial competition.
+Equal partitioning suggests maximum differentiation, while overlap indicates clustering.
+
 ## Conclusion
 
-Our evidence indicates that the spatial dynamics of **conflict** differ from the spatial dynamics of **misgovernance**. Whereas 
+Sweetgreen and Chipotle are not randomly distributed. Their locations exhibit spatial correlation, indicating strategic positioning. Policymakers and businesses should consider these patterns when shaping food environments, as they may influence consumer choices and community health outcomes.

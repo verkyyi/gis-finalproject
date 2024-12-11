@@ -8,12 +8,9 @@ manuscript:
 format:
   html:
     df-print: kable
-  pdf: default
+  # pdf: default
   # docx: default
-  jats: default
+  # jats: default
 
 execute:
   freeze: true
-
-
-
